@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9fe4f70b-f7c9-47f2-8b16-bec5a6477345" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LevelGenerator.java" afterPath="$PROJECT_DIR$/src/LevelGenerator.java" />
     </list>
     <ignored path="Arkanoid.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -653,7 +652,7 @@
       <workItem from="1447838180817" duration="303000" />
       <workItem from="1447838634761" duration="148000" />
       <workItem from="1447838956845" duration="246000" />
-      <workItem from="1447846722841" duration="7128000" />
+      <workItem from="1447846722841" duration="7149000" />
     </task>
     <task id="LOCAL-00001" summary="Add Level1">
       <created>1447852025465</created>
@@ -673,11 +672,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447856850180</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="LevelGenerator finish">
+      <created>1447857212249</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1447857212249</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7825000" />
+    <option name="totallyTimeSpent" value="7846000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
@@ -722,7 +727,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add Level1" />
     <MESSAGE value="LevelGenerator Upgrade" />
-    <option name="LAST_COMMIT_MESSAGE" value="LevelGenerator Upgrade" />
+    <MESSAGE value="LevelGenerator finish" />
+    <option name="LAST_COMMIT_MESSAGE" value="LevelGenerator finish" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
