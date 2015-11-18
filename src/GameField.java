@@ -24,6 +24,10 @@ public class GameField {
 
     }
 
+    public void init() {
+
+    }
+
     public void updateGameField(KeyEvent event){
 
 
