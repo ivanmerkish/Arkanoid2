@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9fe4f70b-f7c9-47f2-8b16-bec5a6477345" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Brick.java" afterPath="$PROJECT_DIR$/src/Brick.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/LevelGenerator.java" afterPath="$PROJECT_DIR$/src/LevelGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/levels/level1" afterPath="$PROJECT_DIR$/src/levels/level1" />
     </list>
     <ignored path="Arkanoid.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -98,7 +95,7 @@
       <file leaf-file-name="LevelGenerator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/LevelGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6647332">
+            <state vertical-scroll-proportion="1.0070299">
               <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -112,6 +109,11 @@
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="CREATE_PULL_REQUEST_DEFAULT_BRANCH" value="master" />
+    <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_USER" value="ivanmerkish" />
+    <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_NAME" value="Arkanoid2" />
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -649,7 +651,7 @@
       <workItem from="1447838180817" duration="303000" />
       <workItem from="1447838634761" duration="148000" />
       <workItem from="1447838956845" duration="246000" />
-      <workItem from="1447846722841" duration="6670000" />
+      <workItem from="1447846722841" duration="6784000" />
     </task>
     <task id="LOCAL-00001" summary="Add Level1">
       <created>1447852025465</created>
@@ -657,21 +659,27 @@
       <option name="project" value="LOCAL" />
       <updated>1447852025465</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="LevelGenerator Upgrade">
+      <created>1447856748897</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1447856748897</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7367000" />
+    <option name="totallyTimeSpent" value="7481000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -705,7 +713,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add Level1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Level1" />
+    <MESSAGE value="LevelGenerator Upgrade" />
+    <option name="LAST_COMMIT_MESSAGE" value="LevelGenerator Upgrade" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -769,7 +778,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/LevelGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6647332">
+        <state vertical-scroll-proportion="1.0070299">
           <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
