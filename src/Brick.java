@@ -6,11 +6,16 @@ import java.awt.*;
 public class Brick extends Sprite {
     private int cycle;
     private PowerUP powerUP;
+    private Color color;
+    private int hardness;
 
-    public Brick(double x, double y,PowerUP powerUP) {
+    public Brick(double x, double y,PowerUP powerUP,Color color, int hardness) {
         super(x, y, null, true);
         cycle = 0;
         this.powerUP = powerUP;
+        this.color = color;
+        this.hardness = hardness;
+
     }
 
 
@@ -21,11 +26,11 @@ public class Brick extends Sprite {
         setQuality(graphics2D);
         GradientPaint gr;
         if (cycle==0) {
-            gr = new GradientPaint((float) x, (float) y, Color.WHITE, (float) x + width, (float) y + height, Color.BLACK, true);
+            gr = new GradientPaint((float) x, (float) y, Color.WHITE, (float) x + width, (float) y + height, color, true);
             cycle++;
         }
         else{
-            gr = new GradientPaint((float) x, (float) y, Color.BLACK, (float) x + width, (float) y + height, Color.WHITE, true);
+            gr = new GradientPaint((float) x, (float) y, color, (float) x + width, (float) y + height, Color.WHITE, true);
             cycle--;
         }
         graphics2D.setPaint(gr);
@@ -34,5 +39,17 @@ public class Brick extends Sprite {
 
     public PowerUP getPowerUP() {
         return powerUP;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public int getHardness() {
+        return hardness;
     }
 }
