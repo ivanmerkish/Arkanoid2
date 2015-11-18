@@ -29,26 +29,29 @@ public class LevelGenerator {
         while ((line = br.readLine()) != null) {
             String[] lvlbr=line.split(";");
             int bi=0;
-            for (String txtbrick :
+            for (String txtBrick :
                     lvlbr) {
-                String[] params = txtbrick.split(",");
-                Color aColor = Color.BLACK;
-                try {
-                    aColor = (Color) Color.class.getField(params[1]).get(null);
-                }
-                catch (Exception e){}
-                if(params[0].equals("1")){
+                String[] params = txtBrick.split(",");
+                if (!params[0].equals("0")) {
+                    Color aColor = Color.BLACK;
 
-                    bricks.add(new Brick(30*bi,20*li,null,aColor,1));
-                }
-                if(params[0].equals("2")){
-                    bricks.add(new Brick(30*bi,20*li,new PowerUP(30*bi,20*li),aColor,1));
-                }
-                if(params[0].equals("3")){
-                    bricks.add(new Brick(30*bi,20*li,null,aColor,2));
-                }
-                if(params[0].equals("4")){
-                    bricks.add(new Brick(30*bi,20*li,null,aColor,3));
+                    try {
+                        aColor = (Color) Color.class.getField(params[1]).get(null);
+                    } catch (Exception e) {
+                    }
+                    if (params[0].equals("1")) {
+
+                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, 1));
+                    }
+                    if (params[0].equals("2")) {
+                        bricks.add(new Brick(30 * bi, 20 * li, new PowerUP(30 * bi, 20 * li), aColor, 1));
+                    }
+                    if (params[0].equals("3")) {
+                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, 2));
+                    }
+                    if (params[0].equals("4")) {
+                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, 3));
+                    }
                 }
             }
             li++;
