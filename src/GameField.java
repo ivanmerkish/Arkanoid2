@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -33,10 +32,15 @@ public class GameField {
     private void collisionCheck(){
         for (Ball b:gameBalls) {
             for (Brick brick:bricks) {
-                if(true){
+                if (brick.getHardness() - 1 == 0) {
                     if (brick.getPowerUP()!=null){
                         powerUPs.add(brick.getPowerUP());
                     }
+                    bricks.remove(brick);
+                } else if (brick.getHardness() - 1 > 0) {
+                    brick.setHardness(brick.getHardness() - 1);
+                } else {
+                    brick.setHardness(-1);
                 }
             }
         }

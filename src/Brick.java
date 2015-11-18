@@ -52,4 +52,8 @@ public class Brick extends Sprite {
     public int getHardness() {
         return hardness;
     }
+
+    public void setHardness(int hardness) {
+        this.hardness = hardness;
+    }
 }
