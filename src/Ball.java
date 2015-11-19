@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -82,6 +83,27 @@ public class Ball extends Sprite {
             return true;
         }
         if (rect.intersectsLine(sprite.x + width, sprite.y, sprite.x + width, sprite.y + height)) {
+            angle = 90 - angle;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isCollision(Line2D line) {
+        Rectangle rect = new Rectangle((int) x, (int) y, width, height);
+        if (rect.intersectsLine(line)) {
+            angle = -angle;
+            return true;
+        }
+        if (rect.intersectsLine(line)) {
+            angle = -angle;
+            return true;
+        }
+        if (rect.intersectsLine(line)) {
+            angle = 90 - angle;
+            return true;
+        }
+        if (rect.intersectsLine(line)) {
             angle = 90 - angle;
             return true;
         }

@@ -1,4 +1,7 @@
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -51,16 +54,33 @@ public class GameField {
                 }
             }
             b.isCollision(bite);
+            isBorder(b);
+        }
+        //powerUP collision;
+        for (PowerUP powerUP : powerUPs) {
+            if (bite.isCollision(powerUP) || isBorder(powerUP)) {
+                powerUPs.remove(powerUP);
+            }
         }
     }
 
     private boolean isBorder(Sprite sprite) {
+        Line2D upperBorder = new Line2D.Double(0, 0, panelWidth, panelHeight);
+        Line2D leftBorder = new Line2D.Double(0, 0, 0, panelHeight);
+        Line2D rightBorder = new Line2D.Double(panelWidth, 0, panelWidth, panelHeight);
+        Line2D bottomBorder = new Line2D.Double(0, panelWidth, panelWidth, panelHeight);
+        Rectangle2D rectangle = new Rectangle.Double(sprite.x, sprite.y, sprite.width, sprite.height);
         if (sprite instanceof Ball) {
-
+            if (((Ball) sprite).isCollision(upperBorder) || ((Ball) sprite).isCollision(leftBorder) ||
+                    ((Ball) sprite).isCollision(rightBorder) || ((Ball) sprite).isCollision(bottomBorder)) {
+                return true;
+            }
         }
-        if (sprite instanceof Bite) {
+        if (sprite instanceof PowerUP) {
 
-        } else if (true) {
+            if (rectangle.intersectsLine(bottomBorder)) {
+                return true;
+            }
         }
         return false;
     }

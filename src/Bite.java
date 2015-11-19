@@ -30,4 +30,9 @@ public class Bite extends Sprite{
                 break;
         }
     }
+
+    public boolean isCollision(PowerUP powerUP) {
+
+        return false;
+    }
 }
