@@ -34,20 +34,35 @@ public class GameField {
 
     }
     private void collisionCheck(){
+        //ball collisions;
         for (Ball b:gameBalls) {
             for (Brick brick:bricks) {
-                if (brick.getHardness() - 1 == 0) {
-                    if (brick.getPowerUP()!=null){
-                        powerUPs.add(brick.getPowerUP());
+                if (b.isCollision(brick)) {
+                    if (brick.getHardness() - 1 == 0) {
+                        if (brick.getPowerUP() != null) {
+                            powerUPs.add(brick.getPowerUP());
+                        }
+                        bricks.remove(brick);
+                    } else if (brick.getHardness() - 1 > 0) {
+                        brick.setHardness(brick.getHardness() - 1);
+                    } else {
+                        brick.setHardness(-1);
                     }
-                    bricks.remove(brick);
-                } else if (brick.getHardness() - 1 > 0) {
-                    brick.setHardness(brick.getHardness() - 1);
-                } else {
-                    brick.setHardness(-1);
                 }
             }
+            b.isCollision(bite);
         }
+    }
+
+    private boolean isBorder(Sprite sprite) {
+        if (sprite instanceof Ball) {
+
+        }
+        if (sprite instanceof Bite) {
+
+        } else if (true) {
+        }
+        return false;
     }
 
 

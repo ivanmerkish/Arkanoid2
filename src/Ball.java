@@ -10,13 +10,8 @@ public class Ball extends Sprite {
     private static final double baseSpdy = 1;
 
     private double angle;
-
-    private enum powerUpEffect {
-        NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE
-    }
     private AffineTransform af;
     private powerUpEffect currPowerUpEffect, lastPowerUpEffect;
-
     public Ball(double x, double y, BufferedImage image) {
         super(x, y, image, false);
         this.angle=0;
@@ -26,14 +21,13 @@ public class Ball extends Sprite {
 
     @Override
     protected void drawSprite(Graphics graphics) {
-        Graphics2D graphics2D = (Graphics2D)graphics;
+        Graphics2D graphics2D = (Graphics2D) graphics;
         setQuality(graphics2D);
         graphics2D.setTransform(af);
-        if(currPowerUpEffect!=powerUpEffect.FIREBALL) {
+        if (currPowerUpEffect != powerUpEffect.FIREBALL) {
             graphics2D.setColor(new Color(0xABABAB));
             graphics2D.fillOval((int) x, (int) y, width, height);
-        }
-        else{
+        } else {
 
         }
     }
@@ -69,8 +63,29 @@ public class Ball extends Sprite {
         }
         spdx = Math.sin(Math.toRadians(angle));
         spdy = -Math.cos(Math.toRadians(angle));
-        x+=spdx;
-        y+=spdy;
+        x += spdx;
+        y += spdy;
+    }
+
+    public boolean isCollision(Sprite sprite) {
+        Rectangle rect = new Rectangle((int) x, (int) y, width, height);
+        if (rect.intersectsLine(sprite.x, sprite.y, sprite.x + width, sprite.y)) {
+            angle = -angle;
+            return true;
+        }
+        if (rect.intersectsLine(sprite.x, sprite.y + height, sprite.x + width, sprite.y + height)) {
+            angle = -angle;
+            return true;
+        }
+        if (rect.intersectsLine(sprite.x, sprite.y, sprite.x, sprite.y + height)) {
+            angle = 90 - angle;
+            return true;
+        }
+        if (rect.intersectsLine(sprite.x + width, sprite.y, sprite.x + width, sprite.y + height)) {
+            angle = 90 - angle;
+            return true;
+        }
+        return false;
     }
 
     public powerUpEffect getCurrPowerUpEffect() {
@@ -88,5 +103,9 @@ public class Ball extends Sprite {
 
     public void setAngle(double angle) {
         this.angle = angle;
+    }
+
+    private enum powerUpEffect {
+        NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE
     }
 }
