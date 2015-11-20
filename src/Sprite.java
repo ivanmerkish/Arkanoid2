@@ -15,6 +15,7 @@ public class Sprite {
     protected double spdy;
     protected double x;
     protected double y;
+    protected double scale;
     protected BufferedImage image;
     protected boolean isStatic;
     protected PowerUpEffect powerUpEffect;

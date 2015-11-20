@@ -17,6 +17,7 @@ public class GameField {
     private CopyOnWriteArrayList<PowerUP> powerUPs;
     private Bite bite;
     private LevelGenerator lg;
+    private int lifeCount;
 
     public GameField() {
         this.gameBalls = new CopyOnWriteArrayList<>();
