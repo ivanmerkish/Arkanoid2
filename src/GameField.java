@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,26 +12,31 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameField {
 
     private static final String[] LEVELS = {"level1", "level2", "level3", "level4", "level5"};
-
+    protected CopyOnWriteArrayList<Ball> gameBalls;
+    protected CopyOnWriteArrayList<Brick> bricks;
+    protected CopyOnWriteArrayList<PowerUP> powerUPs;
+    protected CopyOnWriteArrayList<Bullet> bullets;
+    protected Bite bite;
     private int panelWidth;
     private int panelHeight;
-
-    private CopyOnWriteArrayList<Ball> gameBalls;
-    private CopyOnWriteArrayList<Brick> bricks;
-    private CopyOnWriteArrayList<PowerUP> powerUPs;
-    private CopyOnWriteArrayList<Bullet> bullets;
-    private Bite bite;
     private LevelGenerator lg;
     private int lifeCount;
     private int levelCounter;
+    private BufferedImage[] powerUPSImages, biteImages;
+    private BufferedImage bulletImage, fireBallImage;
 
-    public GameField() {
+    public GameField(BufferedImage[] powerUPSImages, BufferedImage[] biteImages, BufferedImage bulletImage, BufferedImage fireBallImage) {
         this.gameBalls = new CopyOnWriteArrayList<>();
         this.bricks = new CopyOnWriteArrayList<>();
         this.powerUPs = new CopyOnWriteArrayList<>();
         this.bullets = new CopyOnWriteArrayList<>();
         this.bite = null;
         this.lg = null;
+        this.powerUPSImages = powerUPSImages;
+        this.biteImages = biteImages;
+        this.bulletImage = bulletImage;
+        this.fireBallImage = fireBallImage;
+
         levelCounter = 0;
         lifeCount = 3;
 
@@ -43,6 +49,10 @@ public class GameField {
         } catch (IOException e) {
             System.out.println("Level Build Error");
         }
+        bite = new Bite(panelWidth / 2 - 30 * 2, panelHeight - 40, biteImages[0]);
+        Ball ball = new Ball(panelWidth / 2 - 30, bite.y - 30);
+        ball.setFireBall(fireBallImage);
+        gameBalls.add(ball);
 
     }
 
@@ -58,6 +68,11 @@ public class GameField {
         }
         for (Bullet bullet : bullets) {
             bullet.updateSprite();
+        }
+        if (bite.isWeapon) {
+            bite.image = biteImages[1];
+        } else {
+            bite.image = biteImages[0];
         }
         bite.updateSprite();
         for (PowerUP powerUP : powerUPs) {
@@ -115,66 +130,6 @@ public class GameField {
     }
 
 
-
-
-    /**
-     * Class Getters and Setters
-     **/
-    public CopyOnWriteArrayList<Ball> getGameBalls() {
-        return gameBalls;
-    }
-
-    public void setGameBalls(CopyOnWriteArrayList<Ball> gameBalls) {
-        this.gameBalls = gameBalls;
-    }
-
-    public CopyOnWriteArrayList<Brick> getBreaks() {
-        return bricks;
-    }
-
-    public void setBreaks(CopyOnWriteArrayList<Brick> breaks) {
-        this.bricks = breaks;
-    }
-
-    public CopyOnWriteArrayList<PowerUP> getPowerUPs() {
-        return powerUPs;
-    }
-
-    public void setPowerUPs(CopyOnWriteArrayList<PowerUP> powerUPs) {
-        this.powerUPs = powerUPs;
-    }
-
-    public int getPanelWidth() {
-        return panelWidth;
-    }
-
-    public void setPanelWidth(int panelWidth) {
-        this.panelWidth = panelWidth;
-    }
-
-    public int getPanelHeight() {
-        return panelHeight;
-    }
-
-    public void setPanelHeight(int panelHeight) {
-        this.panelHeight = panelHeight;
-    }
-
-    public Bite getBite() {
-        return bite;
-    }
-
-    public void setBite(Bite bite) {
-        this.bite = bite;
-    }
-
-    public LevelGenerator getLg() {
-        return lg;
-    }
-
-    public void setLg(LevelGenerator lg) {
-        this.lg = lg;
-    }
 }
 
 

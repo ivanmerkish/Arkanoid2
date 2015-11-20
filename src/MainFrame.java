@@ -1,13 +1,15 @@
 import javax.swing.*;
 
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+
 /**
- * Created by Ivan Merkish on 11/2/2015.
+ * Frame Class
  */
 public class MainFrame {
     public static void main(String[] args)
     {
-        JFrame frame = new JFrame("Asteroids");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame("Arkanoid");
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         GamePanel p = new GamePanel();
         frame.add(p);

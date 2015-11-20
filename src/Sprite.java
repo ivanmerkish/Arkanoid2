@@ -1,8 +1,7 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
- * Created by Ivan Merkish on 11/2/2015.
+ * Sprite Class: Template class for all game items;
  */
 public class Sprite {
 
@@ -16,18 +15,18 @@ public class Sprite {
     protected double x;
     protected double y;
     protected double scale;
-    protected BufferedImage image;
+    protected Image image;
     protected boolean isStatic;
     protected PowerUpEffect powerUpEffect;
 
-    public Sprite(double x, double y, BufferedImage image, boolean isStatic) {
+    public Sprite(double x, double y, Image image, boolean isStatic) {
         if (image == null){
             this.width = WIDTH;
             this.height = HEIGHT;
         }
         else {
-            this.width = image.getWidth();
-            this.height = image.getHeight();
+            this.width = image.getWidth(null);
+            this.height = image.getHeight(null);
             this.image = image;
         }
         this.x = x;

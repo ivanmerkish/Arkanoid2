@@ -52,7 +52,7 @@ public class LevelGenerator {
                         bricks.add(new Brick(30 * bi, 20 * li, null, aColor, 2));
                     }
                     if (params[0].equals("4")) {
-                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, 3));
+                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, -1));
                     }
                 }
             }

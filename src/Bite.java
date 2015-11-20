@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 /**
  * Bite Class Extends Sprite Class
@@ -9,10 +8,9 @@ import java.awt.image.BufferedImage;
 public class Bite extends Sprite{
 
     private static final int NORMALWIDTH = WIDTH * 2;
-
+    protected boolean isWeapon;
     KeyEvent event;
     private boolean isSticky;
-    private boolean isWeapon;
     private int bulletCount, glueCounter;
     private boolean isNewLife;
     private int newWidth;
@@ -20,7 +18,7 @@ public class Bite extends Sprite{
     private boolean isNewPowerUP;
 
 
-    public Bite(double x, double y, BufferedImage image) {
+    public Bite(double x, double y, Image image) {
         super(x, y, image, false);
         isSticky = true;
         isWeapon = false;

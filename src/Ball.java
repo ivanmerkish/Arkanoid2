@@ -4,7 +4,7 @@ import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by Ivan Merkish on 11/2/2015.
+ * Ball Class extend Sprite Class: game Ball
  */
 public class Ball extends Sprite {
     private static final double baseSpdx = 1;
@@ -14,11 +14,15 @@ public class Ball extends Sprite {
     private AffineTransform af;
     private PowerUpEffect currPowerUpEffect;
     private PowerUpEffect lastPowerUpEffect;
-    public Ball(double x, double y, BufferedImage image) {
-        super(x, y, image, false);
+
+    private BufferedImage fireBall;
+
+    public Ball(double x, double y) {
+        super(x, y, null, false);
         this.angle=0;
         this.currPowerUpEffect = PowerUpEffect.NORMALBALL;
         af = new AffineTransform();
+        fireBall = null;
     }
 
     @Override
@@ -30,7 +34,7 @@ public class Ball extends Sprite {
             graphics2D.setColor(new Color(0xABABAB));
             graphics2D.fillOval((int) x, (int) y, width, height);
         } else {
-
+            graphics2D.drawImage(fireBall, (int) x, (int) y, width, height, null);
         }
     }
 
@@ -128,4 +132,7 @@ public class Ball extends Sprite {
         this.angle = angle;
     }
 
+    public void setFireBall(BufferedImage fireBall) {
+        this.fireBall = fireBall;
+    }
 }
