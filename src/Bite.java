@@ -38,6 +38,7 @@ public class Bite extends Sprite{
         Rectangle2D biteBound = new Rectangle2D.Double(x, y, width, height);
         if (biteBound.intersects(powerUPBound)) {
 
+
         }
 
         return false;

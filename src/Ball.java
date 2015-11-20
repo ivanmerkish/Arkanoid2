@@ -12,11 +12,12 @@ public class Ball extends Sprite {
 
     private double angle;
     private AffineTransform af;
-    private powerUpEffect currPowerUpEffect, lastPowerUpEffect;
+    private PowerUpEffect currPowerUpEffect;
+    private PowerUpEffect lastPowerUpEffect;
     public Ball(double x, double y, BufferedImage image) {
         super(x, y, image, false);
         this.angle=0;
-        this.currPowerUpEffect = powerUpEffect.NORMAL;
+        this.currPowerUpEffect = PowerUpEffect.NORMALBALL;
         af = new AffineTransform();
     }
 
@@ -25,7 +26,7 @@ public class Ball extends Sprite {
         Graphics2D graphics2D = (Graphics2D) graphics;
         setQuality(graphics2D);
         graphics2D.setTransform(af);
-        if (currPowerUpEffect != powerUpEffect.FIREBALL) {
+        if (currPowerUpEffect != PowerUpEffect.FIREBALL) {
             graphics2D.setColor(new Color(0xABABAB));
             graphics2D.fillOval((int) x, (int) y, width, height);
         } else {
@@ -37,13 +38,13 @@ public class Ball extends Sprite {
     protected void updateSprite() {
         switch (currPowerUpEffect){
             case NORMAL:
-                if(lastPowerUpEffect == powerUpEffect.SMALL){
+                if (lastPowerUpEffect == PowerUpEffect.SMALL) {
                     af.scale(2,2);
                 }
-                if(lastPowerUpEffect == powerUpEffect.LARGE){
+                if (lastPowerUpEffect == PowerUpEffect.LARGE) {
                     af.scale(0.5,0.5);
                 }
-                if(lastPowerUpEffect == powerUpEffect.FAST || lastPowerUpEffect == powerUpEffect.SLOW){
+                if (lastPowerUpEffect == PowerUpEffect.FAST || lastPowerUpEffect == PowerUpEffect.SLOW) {
                     spdx = baseSpdx;
                     spdy = baseSpdy;
                 }
@@ -54,12 +55,12 @@ public class Ball extends Sprite {
             case SLOW: spdx *=0.5;
                 break;
             case LARGE:
-                if(lastPowerUpEffect != powerUpEffect.LARGE){
+                if (lastPowerUpEffect != PowerUpEffect.LARGE) {
                     af.scale(2,2);
                 }
                 break;
             case SMALL:
-                if(lastPowerUpEffect != powerUpEffect.SMALL)
+                if (lastPowerUpEffect != PowerUpEffect.SMALL)
                     af.scale(0.5,0.5);
         }
         spdx = Math.sin(Math.toRadians(angle));
@@ -110,11 +111,11 @@ public class Ball extends Sprite {
         return false;
     }
 
-    public powerUpEffect getCurrPowerUpEffect() {
+    public PowerUpEffect getCurrPowerUpEffect() {
         return currPowerUpEffect;
     }
 
-    public void setCurrPowerUpEffect(powerUpEffect currPowerUpEffect) {
+    public void setCurrPowerUpEffect(PowerUpEffect currPowerUpEffect) {
         this.lastPowerUpEffect = this.currPowerUpEffect;
         this.currPowerUpEffect = currPowerUpEffect;
     }
@@ -127,7 +128,4 @@ public class Ball extends Sprite {
         this.angle = angle;
     }
 
-    private enum powerUpEffect {
-        NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE
-    }
 }

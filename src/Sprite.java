@@ -17,6 +17,8 @@ public class Sprite {
     protected double y;
     protected BufferedImage image;
     protected boolean isStatic;
+    protected PowerUpEffect powerUpEffect;
+
     public Sprite(double x, double y, BufferedImage image, boolean isStatic) {
         if (image == null){
             this.width = WIDTH;
@@ -60,8 +62,12 @@ public class Sprite {
         graphics2D.setRenderingHints(rqrh);
     }
 
-    protected enum powerUpEffect {
-        NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE, GROW, SHRINK, WEAPON, TRIPLE, LIFE, NORMALBALL,
+    protected enum PowerUpEffect {
+        NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE, GROW, SHRINK, WEAPON, TRIPLE, LIFE, NORMALBALL;
+
+        public static PowerUpEffect getRandom() {
+            return values()[(int) (Math.random() * values().length)];
+        }
     }
 
 }

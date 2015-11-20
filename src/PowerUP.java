@@ -6,17 +6,17 @@ import java.awt.*;
 public class PowerUP extends Sprite {
 
 
-    private powerUpEffect powerUpEffect;
+
 
     public PowerUP(double x, double y) {
         super(x, y, null, false);
     }
 
-    public PowerUP.powerUpEffect getPowerUpEffect() {
+    public PowerUP.PowerUpEffect getPowerUpEffect() {
         return powerUpEffect;
     }
 
-    public void setPowerUpEffect(PowerUP.powerUpEffect powerUpEffect) {
+    public void setPowerUpEffect(PowerUP.PowerUpEffect powerUpEffect) {
         this.powerUpEffect = powerUpEffect;
         switch (powerUpEffect){
 
@@ -41,6 +41,8 @@ public class PowerUP extends Sprite {
             case TRIPLE:
                 break;
             case LIFE:
+                break;
+            case NORMALBALL:
                 break;
         }
     }
