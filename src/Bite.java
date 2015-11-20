@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by Ivan Merkish on 11/2/2015.
+ * Bite Class Extends Sprite Class
  */
 public class Bite extends Sprite{
 
@@ -25,6 +25,7 @@ public class Bite extends Sprite{
         isWeapon = false;
         isNewLife = false;
         isFirstLaunch = true;
+
     }
 
     @Override
