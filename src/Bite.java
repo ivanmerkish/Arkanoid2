@@ -16,13 +16,15 @@ public class Bite extends Sprite{
     private int bulletCount;
     private boolean isNewLife;
     private int newWidth;
+    private boolean isFirstLaunch;
 
 
     public Bite(double x, double y, BufferedImage image) {
         super(x, y, image, false);
-        isSticky = false;
+        isSticky = true;
         isWeapon = false;
         isNewLife = false;
+        isFirstLaunch = true;
     }
 
     @Override
