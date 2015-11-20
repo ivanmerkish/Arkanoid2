@@ -1,15 +1,11 @@
-
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Ivan Merkish on 11/2/2015.
  */
 public class PowerUP extends Sprite {
 
-    private enum powerUpEffect {
-        NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE, GROW, SHRINK, WEAPON, TRIPLE, LIFE
-    }
+
     private powerUpEffect powerUpEffect;
 
     public PowerUP(double x, double y) {

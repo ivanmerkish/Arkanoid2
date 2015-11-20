@@ -17,7 +17,6 @@ public class Sprite {
     protected double y;
     protected BufferedImage image;
     protected boolean isStatic;
-
     public Sprite(double x, double y, BufferedImage image, boolean isStatic) {
         if (image == null){
             this.width = WIDTH;
@@ -39,6 +38,7 @@ public class Sprite {
         graphics2D.drawImage(image,(int)x,(int)y,null);
 
     }
+
     protected void updateSprite(){
         if(!isStatic){
             x+=spdx;
@@ -46,9 +46,11 @@ public class Sprite {
         colorAnimation();
 
     }
+
     protected void colorAnimation(){
 
     }
+
     protected void setQuality(Graphics2D graphics2D){
         RenderingHints aarh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         RenderingHints crqrh = new RenderingHints(RenderingHints.KEY_COLOR_RENDERING,RenderingHints.VALUE_COLOR_RENDER_QUALITY);
@@ -56,6 +58,10 @@ public class Sprite {
         graphics2D.setRenderingHints(aarh);
         graphics2D.setRenderingHints(crqrh);
         graphics2D.setRenderingHints(rqrh);
+    }
+
+    protected enum powerUpEffect {
+        NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE, GROW, SHRINK, WEAPON, TRIPLE, LIFE, NORMALBALL,
     }
 
 }

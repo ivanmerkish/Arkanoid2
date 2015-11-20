@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -8,6 +9,7 @@ import java.awt.image.BufferedImage;
 public class Bite extends Sprite{
 
     KeyEvent event;
+
 
 
 
@@ -32,6 +34,11 @@ public class Bite extends Sprite{
     }
 
     public boolean isCollision(PowerUP powerUP) {
+        Rectangle2D powerUPBound = new Rectangle2D.Double(powerUP.x, powerUP.y, powerUP.width, powerUP.height);
+        Rectangle2D biteBound = new Rectangle2D.Double(x, y, width, height);
+        if (biteBound.intersects(powerUPBound)) {
+
+        }
 
         return false;
     }
