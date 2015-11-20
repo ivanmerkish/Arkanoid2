@@ -13,10 +13,11 @@ public class Bite extends Sprite{
     KeyEvent event;
     private boolean isSticky;
     private boolean isWeapon;
-    private int bulletCount;
+    private int bulletCount, glueCounter;
     private boolean isNewLife;
     private int newWidth;
     private boolean isFirstLaunch;
+    private boolean isNewPowerUP;
 
 
     public Bite(double x, double y, BufferedImage image) {
@@ -53,12 +54,14 @@ public class Bite extends Sprite{
                 x--;
                 width += 2;
             }
+            return;
         }
         if (scale < 1) {
             if (NORMALWIDTH * scale < width) {
                 x++;
                 width -= 2;
             }
+            return;
         }
         if (scale == 1) {
             if (width < NORMALWIDTH) {
@@ -69,7 +72,9 @@ public class Bite extends Sprite{
                 x++;
                 width -= 2;
             }
+            return;
         }
+        isNewPowerUP = false;
     }
 
     public boolean isCollision(PowerUP powerUP) {
@@ -77,6 +82,8 @@ public class Bite extends Sprite{
         Rectangle2D biteBound = new Rectangle2D.Double(x, y, width, height);
         if (biteBound.intersects(powerUPBound)) {
             powerUpEffect = powerUP.getPowerUpEffect();
+            if (powerUpEffect != PowerUpEffect.LIFE)
+                isNewPowerUP = true;
             return true;
         }
 
@@ -105,6 +112,9 @@ public class Bite extends Sprite{
             case LIFE:
                 isNewLife = true;
                 break;
+            case GLUE:
+                isSticky = true;
+                glueCounter = 5;
 
         }
     }
