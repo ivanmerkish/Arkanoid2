@@ -1,7 +1,7 @@
 import java.awt.*;
 
 /**
- * Created by Ivan Merkish on 11/2/2015.
+ *  PowerUP Class extends Sprite Class: PowerUP Item Class
  */
 public class PowerUP extends Sprite {
 
@@ -10,6 +10,7 @@ public class PowerUP extends Sprite {
 
     public PowerUP(double x, double y) {
         super(x, y, null, false);
+        setPowerUpEffect(PowerUpEffect.getRandom());
     }
 
     public PowerUP.PowerUpEffect getPowerUpEffect() {

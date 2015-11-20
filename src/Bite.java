@@ -53,26 +53,30 @@ public class Bite extends Sprite{
             if (NORMALWIDTH * scale > width) {
                 x--;
                 width += 2;
+                return;
             }
-            return;
+
         }
         if (scale < 1) {
             if (NORMALWIDTH * scale < width) {
                 x++;
                 width -= 2;
+                return;
             }
-            return;
+
         }
         if (scale == 1) {
             if (width < NORMALWIDTH) {
                 x--;
                 width += 2;
+                return;
             }
             if (width > NORMALWIDTH) {
                 x++;
                 width -= 2;
+                return;
             }
-            return;
+
         }
         isNewPowerUP = false;
     }

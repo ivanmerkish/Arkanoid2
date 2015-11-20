@@ -2,12 +2,15 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Created by Ivan Merkish on 11/13/2015.
+ * GameField Class: Game engine
  */
 public class GameField {
+
+    private static final String[] LEVELS = {"level1", "level2", "level3", "level4", "level5"};
 
     private int panelWidth;
     private int panelHeight;
@@ -15,28 +18,53 @@ public class GameField {
     private CopyOnWriteArrayList<Ball> gameBalls;
     private CopyOnWriteArrayList<Brick> bricks;
     private CopyOnWriteArrayList<PowerUP> powerUPs;
+    private CopyOnWriteArrayList<Bullet> bullets;
     private Bite bite;
     private LevelGenerator lg;
     private int lifeCount;
+    private int levelCounter;
 
     public GameField() {
         this.gameBalls = new CopyOnWriteArrayList<>();
         this.bricks = new CopyOnWriteArrayList<>();
         this.powerUPs = new CopyOnWriteArrayList<>();
+        this.bullets = new CopyOnWriteArrayList<>();
         this.bite = null;
         this.lg = null;
+        levelCounter = 0;
+        lifeCount = 3;
 
     }
 
     public void init() {
+        lg = new LevelGenerator(LEVELS[levelCounter]);
+        try {
+            bricks = lg.buildLevel();
+        } catch (IOException e) {
+            System.out.println("Level Build Error");
+        }
 
     }
 
     public void updateGameField(KeyEvent event){
-
-
+        updateAllItems();
+        collisionCheck();
 
     }
+
+    private void updateAllItems() {
+        for (Ball ball : gameBalls) {
+            ball.updateSprite();
+        }
+        for (Bullet bullet : bullets) {
+            bullet.updateSprite();
+        }
+        bite.updateSprite();
+        for (PowerUP powerUP : powerUPs) {
+            powerUP.updateSprite();
+        }
+    }
+
     private void collisionCheck(){
         //ball collisions;
         for (Ball b:gameBalls) {
@@ -69,7 +97,7 @@ public class GameField {
         Line2D upperBorder = new Line2D.Double(0, 0, panelWidth, panelHeight);
         Line2D leftBorder = new Line2D.Double(0, 0, 0, panelHeight);
         Line2D rightBorder = new Line2D.Double(panelWidth, 0, panelWidth, panelHeight);
-        Line2D bottomBorder = new Line2D.Double(0, panelWidth, panelWidth, panelHeight);
+        Line2D bottomBorder = new Line2D.Double(0, panelHeight, panelWidth, panelHeight);
         Rectangle2D rectangle = new Rectangle.Double(sprite.x, sprite.y, sprite.width, sprite.height);
         if (sprite instanceof Ball) {
             if (((Ball) sprite).isCollision(upperBorder) || ((Ball) sprite).isCollision(leftBorder) ||
