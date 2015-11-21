@@ -79,6 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
         running = true;
 
         while (running) {
+            isGameOver = gameField.isGameover();
             if (!paused && !isGameOver) {
                 gameUpdate();
             }

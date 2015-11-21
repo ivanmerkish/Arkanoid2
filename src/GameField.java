@@ -27,6 +27,7 @@ public class GameField {
     private BufferedImage bulletImage, fireBallImage;
     private double stickyPoint;
     private boolean gameLaunch;
+    private boolean isGameover;
 
     public GameField(ArrayList<BufferedImage> powerUPSImages, ArrayList<BufferedImage> biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
         this.gameBalls = new CopyOnWriteArrayList<>();
@@ -42,6 +43,7 @@ public class GameField {
         this.panelHeight = panelHeight;
         this.panelWidth = panelWidth;
         gameLaunch = true;
+        isGameover = false;
 
         levelCounter = 1;
         lifeCount = 3;
@@ -159,8 +161,16 @@ public class GameField {
         Line2D bottomBorder = new Line2D.Double(0, panelHeight, panelWidth, panelHeight);
         Rectangle2D rectangle = new Rectangle.Double(sprite.x, sprite.y, sprite.width, sprite.height);
         if (sprite instanceof Ball) {
-            if (((Ball) sprite).isCollision(upperBorder) || ((Ball) sprite).isCollision(leftBorder) ||
-                    ((Ball) sprite).isCollision(rightBorder) || ((Ball) sprite).isCollision(bottomBorder)) {
+            if (rectangle.intersectsLine(upperBorder)) {
+                ((Ball) sprite).setAngle(180 - ((Ball) sprite).getAngle());
+                return true;
+            }
+            if (rectangle.intersectsLine(bottomBorder)) {
+                lifeCount--;
+                restart();
+            }
+            if (rectangle.intersectsLine(leftBorder) || rectangle.intersectsLine(rightBorder)) {
+                ((Ball) sprite).setAngle(360 - ((Ball) sprite).getAngle());
                 return true;
             }
         }
@@ -181,6 +191,23 @@ public class GameField {
         return false;
     }
 
+    private void restart() {
+        if (lifeCount - 1 > -1) {
+            gameBalls.clear();
+            int biteWidth, biteHeight;
+            biteWidth = bricks.get(0).width * 3;
+            biteHeight = bricks.get(0).height / 2;
+            bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
+            Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26);
+            ball.setFireBall(fireBallImage);
+            gameBalls.add(ball);
+            stickyPoint = bite.x;
+        } else isGameover = true;
+    }
+
+    public boolean isGameover() {
+        return isGameover;
+    }
 }
 
 
