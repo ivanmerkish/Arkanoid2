@@ -8,9 +8,9 @@ import java.awt.image.BufferedImage;
  */
 public class Bite extends Sprite{
 
-    private static final int NORMALWIDTH = WIDTH * 2;
     protected boolean isWeapon;
     KeyEvent event;
+    private int normalWidth = WIDTH * 2;
     private boolean isSticky;
     private int bulletCount, glueCounter;
     private boolean isNewLife;
@@ -25,6 +25,8 @@ public class Bite extends Sprite{
         isWeapon = false;
         isNewLife = false;
         isFirstLaunch = true;
+        normalWidth = image.getWidth();
+        spdx = 0;
 
     }
 
@@ -39,12 +41,15 @@ public class Bite extends Sprite{
         if (event != null) {
             switch (event.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
+                    spdx = 10;
                     x -= spdx;
                     break;
                 case KeyEvent.VK_RIGHT:
+                    spdx = 10;
                     x += spdx;
                     break;
             }
+
         }
         powerUPManagement();
         resize();
@@ -53,7 +58,7 @@ public class Bite extends Sprite{
 
     private void resize() {
         if (scale > 1) {
-            if (NORMALWIDTH * scale > width) {
+            if (normalWidth * scale > width) {
                 x--;
                 width += 2;
                 return;
@@ -61,7 +66,7 @@ public class Bite extends Sprite{
 
         }
         if (scale < 1) {
-            if (NORMALWIDTH * scale < width) {
+            if (normalWidth * scale < width) {
                 x++;
                 width -= 2;
                 return;
@@ -69,12 +74,12 @@ public class Bite extends Sprite{
 
         }
         if (scale == 1) {
-            if (width < NORMALWIDTH) {
+            if (width < normalWidth) {
                 x--;
                 width += 2;
                 return;
             }
-            if (width > NORMALWIDTH) {
+            if (width > normalWidth) {
                 x++;
                 width -= 2;
                 return;

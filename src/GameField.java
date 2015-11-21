@@ -53,7 +53,7 @@ public class GameField {
         } catch (IOException e) {
             System.out.println("Level Build Error");
         }
-        bite = new Bite(panelWidth / 2 - 30 * 2, panelHeight - 40, biteImages.get(0));
+        bite = new Bite(panelWidth / 2 - biteImages.get(0).getWidth() / 2, panelHeight - biteImages.get(0).getHeight() - 40, biteImages.get(0));
         Ball ball = new Ball(panelWidth / 2 - 30, bite.y - 30);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);

@@ -16,6 +16,7 @@ public class Ball extends Sprite {
     private PowerUpEffect lastPowerUpEffect;
 
     private BufferedImage fireBall;
+    private boolean isGlued;
 
     public Ball(double x, double y) {
         super(x, y, null, false);
@@ -23,6 +24,9 @@ public class Ball extends Sprite {
         this.currPowerUpEffect = PowerUpEffect.NORMALBALL;
         af = new AffineTransform();
         fireBall = null;
+        width = 10;
+        height = 10;
+        isGlued = true;
     }
 
     @Override
@@ -67,8 +71,10 @@ public class Ball extends Sprite {
                 if (lastPowerUpEffect != PowerUpEffect.SMALL)
                     af.scale(0.5,0.5);
         }
-        spdx = Math.sin(Math.toRadians(angle));
-        spdy = -Math.cos(Math.toRadians(angle));
+        if (!isGlued) {
+            spdx = Math.sin(Math.toRadians(angle));
+            spdy = -Math.cos(Math.toRadians(angle));
+        }
         x += spdx;
         y += spdy;
     }

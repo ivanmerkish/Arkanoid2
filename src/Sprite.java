@@ -33,6 +33,7 @@ public class Sprite {
         this.x = x;
         this.y = y;
         this.isStatic = isStatic;
+        scale = 1;
     }
 
     protected void drawSprite(Graphics graphics){
