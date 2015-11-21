@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -5,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * GamePanel : Game Render with game Loop
@@ -17,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     boolean running, paused, isGameOver;
     GameField gameField;
     private BufferedImage dbImage = null;
-    private BufferedImage[] powerUPSImages, biteImages;
+    private ArrayList<BufferedImage> powerUPSImages, biteImages;
     private BufferedImage bulletImage, fireBallImage;
     private KeyEvent keyEvent;
     private MouseEvent mouseEvent;
@@ -27,6 +30,12 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         requestFocusInWindow();
         try {
+
+            bulletImage = ImageIO.read(new File(getClass().getResource("/img/bullet.png").toURI()));
+            biteImages = new ArrayList<>();
+            biteImages.add(ImageIO.read(new File(getClass().getResource("/img/Bite.png").toURI())));
+            biteImages.add(ImageIO.read(new File(getClass().getResource("/img/BiteGuns.png").toURI())));
+            powerUPSImages = new ArrayList<>();
             //image loading;
         } catch (Exception e) {
             System.out.println("Image Load Error");

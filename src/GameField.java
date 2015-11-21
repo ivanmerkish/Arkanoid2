@@ -4,6 +4,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -20,10 +21,10 @@ public class GameField {
     private int panelWidth, panelHeight;
     private LevelGenerator lg;
     private int lifeCount, levelCounter;
-    private BufferedImage[] powerUPSImages, biteImages;
+    private ArrayList<BufferedImage> powerUPSImages, biteImages;
     private BufferedImage bulletImage, fireBallImage;
 
-    public GameField(BufferedImage[] powerUPSImages, BufferedImage[] biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
+    public GameField(ArrayList<BufferedImage> powerUPSImages, ArrayList<BufferedImage> biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
         this.gameBalls = new CopyOnWriteArrayList<>();
         this.bricks = new CopyOnWriteArrayList<>();
         this.powerUPs = new CopyOnWriteArrayList<>();
@@ -52,7 +53,7 @@ public class GameField {
         } catch (IOException e) {
             System.out.println("Level Build Error");
         }
-        bite = new Bite(panelWidth / 2 - 30 * 2, panelHeight - 40, biteImages[0]);
+        bite = new Bite(panelWidth / 2 - 30 * 2, panelHeight - 40, biteImages.get(0));
         Ball ball = new Ball(panelWidth / 2 - 30, bite.y - 30);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);
@@ -73,9 +74,9 @@ public class GameField {
             bullet.updateSprite();
         }
         if (bite.isWeapon) {
-            bite.image = biteImages[1];
+            bite.image = biteImages.get(1);
         } else {
-            bite.image = biteImages[0];
+            bite.image = biteImages.get(0);
         }
         bite.updateSprite();
         for (PowerUP powerUP : powerUPs) {
