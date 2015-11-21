@@ -39,6 +39,7 @@ public class GameField {
 
         levelCounter = 0;
         lifeCount = 3;
+        init();
 
     }
 

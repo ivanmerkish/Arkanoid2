@@ -27,6 +27,7 @@ public class LevelGenerator {
         String line;
         int li = 0;
         while ((line = br.readLine()) != null) {
+            line.trim();
             String[] lvlbr=line.split(";");
             int bi=0;
             for (String txtBrick :
@@ -55,6 +56,7 @@ public class LevelGenerator {
                         bricks.add(new Brick(30 * bi, 20 * li, null, aColor, -1));
                     }
                 }
+                bi++;
             }
             li++;
         }
