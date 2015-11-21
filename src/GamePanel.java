@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
             biteImages.add(ImageIO.read(new File(getClass().getResource("/img/Bite.png").toURI())));
             biteImages.add(ImageIO.read(new File(getClass().getResource("/img/BiteGuns.png").toURI())));
             powerUPSImages = new ArrayList<>();
+            fireBallImage = ImageIO.read(new File(getClass().getResource("/img/Fireball.png").toURI()));
             //image loading;
         } catch (Exception e) {
             System.out.println("Image Load Error");
@@ -99,6 +100,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
 
+    }
+
+    public void addNotify() {
+        super.addNotify();   // creates the peer
+        (new Thread(this)).start();
     }
 
     private void gameRender() {

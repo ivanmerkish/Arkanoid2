@@ -35,11 +35,15 @@ public class Bite extends Sprite{
 
     @Override
     protected void updateSprite() {
-        switch (event.getKeyCode()){
-            case KeyEvent.VK_LEFT : x-=spdx;
-                break;
-            case KeyEvent.VK_RIGHT: x+=spdx;
-                break;
+        if (event != null) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    x -= spdx;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    x += spdx;
+                    break;
+            }
         }
         powerUPManagement();
         resize();
