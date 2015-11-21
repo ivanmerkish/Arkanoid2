@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Sprite Class: Template class for all game items;
@@ -19,7 +20,7 @@ public class Sprite {
     protected boolean isStatic;
     protected PowerUpEffect powerUpEffect;
 
-    public Sprite(double x, double y, Image image, boolean isStatic) {
+    public Sprite(double x, double y, BufferedImage image, boolean isStatic) {
         if (image == null){
             this.width = WIDTH;
             this.height = HEIGHT;

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Bite Class Extends Sprite Class
@@ -18,7 +19,7 @@ public class Bite extends Sprite{
     private boolean isNewPowerUP;
 
 
-    public Bite(double x, double y, Image image) {
+    public Bite(double x, double y, BufferedImage image) {
         super(x, y, image, false);
         isSticky = true;
         isWeapon = false;
@@ -97,31 +98,33 @@ public class Bite extends Sprite{
     }
 
     private void powerUPManagement() {
-        switch (powerUpEffect) {
-            case NORMAL:
-                scale = 1;
-                isSticky = false;
-                isWeapon = false;
-                break;
-            case GROW:
-                if (scale < 1) scale = 1;
-                if (scale < 2) scale += 0.5;
-                break;
-            case SHRINK:
-                if (scale > 1) scale = 1;
-                if (scale < 0.25) scale *= 0.5;
-                break;
-            case WEAPON:
-                bulletCount += 10;
-                isWeapon = true;
-                break;
-            case LIFE:
-                isNewLife = true;
-                break;
-            case GLUE:
-                isSticky = true;
-                glueCounter = 5;
+        if (powerUpEffect != null) {
+            switch (powerUpEffect) {
+                case NORMAL:
+                    scale = 1;
+                    isSticky = false;
+                    isWeapon = false;
+                    break;
+                case GROW:
+                    if (scale < 1) scale = 1;
+                    if (scale < 2) scale += 0.5;
+                    break;
+                case SHRINK:
+                    if (scale > 1) scale = 1;
+                    if (scale < 0.25) scale *= 0.5;
+                    break;
+                case WEAPON:
+                    bulletCount += 10;
+                    isWeapon = true;
+                    break;
+                case LIFE:
+                    isNewLife = true;
+                    break;
+                case GLUE:
+                    isSticky = true;
+                    glueCounter = 5;
 
+            }
         }
     }
 
