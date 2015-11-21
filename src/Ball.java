@@ -24,9 +24,10 @@ public class Ball extends Sprite {
         this.currPowerUpEffect = PowerUpEffect.NORMALBALL;
         af = new AffineTransform();
         fireBall = null;
-        width = 10;
-        height = 10;
+        width = 25;
+        height = 25;
         isGlued = true;
+
     }
 
     @Override
@@ -72,8 +73,8 @@ public class Ball extends Sprite {
                     af.scale(0.5,0.5);
         }
         if (!isGlued) {
-            spdx = Math.sin(Math.toRadians(angle));
-            spdy = -Math.cos(Math.toRadians(angle));
+            spdx = Math.sin(Math.toRadians(angle)) * 3;
+            spdy = -Math.cos(Math.toRadians(angle)) * 3;
         }
         x += spdx;
         y += spdy;
@@ -81,19 +82,19 @@ public class Ball extends Sprite {
 
     public boolean isCollision(Sprite sprite) {
         Rectangle rect = new Rectangle((int) x, (int) y, width, height);
-        if (rect.intersectsLine(sprite.x, sprite.y, sprite.x + width, sprite.y)) {
-            angle = -angle;
+        if (rect.intersectsLine(sprite.x, sprite.y, sprite.x + sprite.width, sprite.y)) {
+            angle += 180;
             return true;
         }
-        if (rect.intersectsLine(sprite.x, sprite.y + height, sprite.x + width, sprite.y + height)) {
-            angle = -angle;
+        if (rect.intersectsLine(sprite.x, sprite.y + sprite.height, sprite.x + sprite.width, sprite.y + sprite.height)) {
+            angle -= 180;
             return true;
         }
-        if (rect.intersectsLine(sprite.x, sprite.y, sprite.x, sprite.y + height)) {
+        if (rect.intersectsLine(sprite.x, sprite.y, sprite.x, sprite.y + sprite.height)) {
             angle = 90 - angle;
             return true;
         }
-        if (rect.intersectsLine(sprite.x + width, sprite.y, sprite.x + width, sprite.y + height)) {
+        if (rect.intersectsLine(sprite.x + sprite.width, sprite.y, sprite.x + sprite.width, sprite.y + sprite.height)) {
             angle = 90 - angle;
             return true;
         }
@@ -107,7 +108,7 @@ public class Ball extends Sprite {
             return true;
         }
         if (rect.intersectsLine(line)) {
-            angle = -angle;
+            angle -= 180;
             return true;
         }
         if (rect.intersectsLine(line)) {

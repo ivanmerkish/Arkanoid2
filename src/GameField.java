@@ -13,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class GameField {
 
+    private static final int TOOLBARHEIGHT = 40;
     private static final String[] LEVELS = {"level1", "level2", "level3", "level4", "level5"};
     protected CopyOnWriteArrayList<Ball> gameBalls;
     protected CopyOnWriteArrayList<Brick> bricks;
@@ -24,6 +25,8 @@ public class GameField {
     private int lifeCount, levelCounter;
     private ArrayList<BufferedImage> powerUPSImages, biteImages;
     private BufferedImage bulletImage, fireBallImage;
+    private double stickyPoint;
+    private boolean gameLaunch;
 
     public GameField(ArrayList<BufferedImage> powerUPSImages, ArrayList<BufferedImage> biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
         this.gameBalls = new CopyOnWriteArrayList<>();
@@ -38,6 +41,7 @@ public class GameField {
         this.fireBallImage = fireBallImage;
         this.panelHeight = panelHeight;
         this.panelWidth = panelWidth;
+        gameLaunch = true;
 
         levelCounter = 1;
         lifeCount = 3;
@@ -46,6 +50,10 @@ public class GameField {
     }
 
     public void init() {
+        MusicPlayer m = new MusicPlayer();
+
+        Thread t = new Thread(m);
+        t.run();
         lg = new LevelGenerator(LEVELS[levelCounter]);
         lg.setPanelHeight(panelHeight);
         lg.setPanelWidth(panelWidth);
@@ -54,10 +62,14 @@ public class GameField {
         } catch (IOException e) {
             System.out.println("Level Build Error");
         }
-        bite = new Bite(panelWidth / 2 - biteImages.get(0).getWidth() / 2, panelHeight - biteImages.get(0).getHeight() - 40, biteImages.get(0));
-        Ball ball = new Ball(panelWidth / 2 - 30, bite.y - 10);
+        int biteWidth, biteHeight;
+        biteWidth = bricks.get(0).width * 3;
+        biteHeight = bricks.get(0).height / 2;
+        bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
+        Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);
+        stickyPoint = bite.x;
 
     }
 
@@ -72,8 +84,24 @@ public class GameField {
     private void updateAllItems() {
         for (Ball ball : gameBalls) {
             if (ball.isGlued()) {
-                ball.spdx = bite.spdx;
-                ball.spdy = 0;
+                if (bite.keyEvent != null && bite.keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+                    if (gameLaunch) {
+                        bite.setSticky(false);
+                        gameLaunch = false;
+                    }
+
+                    ball.setGlued(false);
+                    if (ball.getAngle() > 180) {
+                        ball.setAngle(ball.getAngle() - 180);
+                    }
+                } else {
+                    double biteXDef = stickyPoint - bite.x;
+                    if ((biteXDef) != 0) {
+                        ball.x = ball.x - biteXDef;
+                    }
+                    ball.spdy = 0;
+                    stickyPoint = bite.x;
+                }
             }
             ball.updateSprite();
         }
@@ -101,6 +129,7 @@ public class GameField {
                             powerUPs.add(brick.getPowerUP());
                         }
                         bricks.remove(brick);
+                        break;
                     } else if (brick.getHardness() - 1 > 0) {
                         brick.setHardness(brick.getHardness() - 1);
                     } else {
@@ -113,6 +142,8 @@ public class GameField {
             }
             isBorder(b);
         }
+        //Bite collision;
+        isBorder(bite);
         //powerUP collision;
         for (PowerUP powerUP : powerUPs) {
             if (bite.isCollision(powerUP) || isBorder(powerUP)) {
@@ -122,7 +153,7 @@ public class GameField {
     }
 
     private boolean isBorder(Sprite sprite) {
-        Line2D upperBorder = new Line2D.Double(0, 0, panelWidth, panelHeight);
+        Line2D upperBorder = new Line2D.Double(0, 0, panelWidth, 0);
         Line2D leftBorder = new Line2D.Double(0, 0, 0, panelHeight);
         Line2D rightBorder = new Line2D.Double(panelWidth, 0, panelWidth, panelHeight);
         Line2D bottomBorder = new Line2D.Double(0, panelHeight, panelWidth, panelHeight);
@@ -137,6 +168,14 @@ public class GameField {
 
             if (rectangle.intersectsLine(bottomBorder)) {
                 return true;
+            }
+        }
+        if (sprite instanceof Bite) {
+            if (rectangle.intersectsLine(leftBorder)) {
+                ((Bite) sprite).isLeftBorder = true;
+            }
+            if (rectangle.intersectsLine(rightBorder)) {
+                ((Bite) sprite).isRightBorder = true;
             }
         }
         return false;

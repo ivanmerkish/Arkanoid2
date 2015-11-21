@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 public class Bite extends Sprite{
 
     protected boolean isWeapon;
+    protected boolean isLeftBorder, isRightBorder;
     KeyEvent keyEvent;
     MouseEvent mouseEvent;
     private int normalWidth = WIDTH * 2;
@@ -20,21 +21,25 @@ public class Bite extends Sprite{
     private boolean isFirstLaunch;
     private boolean isNewPowerUP;
 
-
-    public Bite(double x, double y, BufferedImage image) {
+    public Bite(double x, double y, BufferedImage image, int width, int height) {
         super(x, y, image, false);
         isSticky = true;
         isWeapon = false;
         isNewLife = false;
         isFirstLaunch = true;
-        normalWidth = image.getWidth();
+        normalWidth = width;
+        this.width = normalWidth;
+        this.height = height;
         spdx = 0;
+        isLeftBorder = false;
+        isRightBorder = false;
 
     }
 
     @Override
     protected void drawSprite(Graphics graphics) {
-        super.drawSprite(graphics);
+        Graphics2D graphics2D = (Graphics2D) graphics;
+        graphics2D.drawImage(image, (int) x, (int) y, width, height, null);
 
     }
 
@@ -44,10 +49,16 @@ public class Bite extends Sprite{
             spdx = 10;
             switch (keyEvent.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    x -= spdx;
+                    if (!isLeftBorder) {
+                        x -= spdx;
+                        isRightBorder = false;
+                    }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    x += spdx;
+                    if (!isRightBorder) {
+                        x += spdx;
+                        isLeftBorder = false;
+                    }
                     break;
             }
 
@@ -60,7 +71,6 @@ public class Bite extends Sprite{
                 x -= spdx;
             }
         }
-        spdx = 0;
         powerUPManagement();
         resize();
 
@@ -153,5 +163,9 @@ public class Bite extends Sprite{
 
     public boolean isSticky() {
         return isSticky;
+    }
+
+    public void setSticky(boolean sticky) {
+        isSticky = sticky;
     }
 }

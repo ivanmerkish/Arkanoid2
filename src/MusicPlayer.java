@@ -1,51 +1,34 @@
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
-
-import java.net.URL;
-import java.util.HashMap;
+import javax.sound.sampled.*;
 
 /**
  * Created by Ivan Merkish on 11/13/2015.
  */
 
 public class MusicPlayer implements Runnable {
-    private HashMap<String,URL> musicFiles;
-    private Media media;
-    private MediaPlayer mp;
-    private String track;
 
+    private AudioInputStream inputStream;
     public MusicPlayer() {
-        musicFiles = new HashMap();
-        musicFiles.put("theme",getClass().getResource("/mp3/Ricochet_Xtreme_Theme.mp3"));
-        musicFiles.put("normal",getClass().getResource("/mp3/Riocchet_Xtreme_Space_Normal.mp3"));
-        musicFiles.put("slow",getClass().getResource("/mp3/Ricochet_Xtreme_Space_Slow.mp3"));
-        musicFiles.put("fast",getClass().getResource("/mp3/Riocchet_Xtreme_Space_Speed.mp3"));
-        media = null;
-        mp = null;
-        track = "";
+        try {
+            inputStream = AudioSystem.getAudioInputStream(
+                    getClass().getResourceAsStream("/mp3/track1.wav"));
+        } catch (Exception e) {
+            System.out.println("Music file error");
+        }
     }
 
     @Override
     public void run() {
-        if (!track.equals("")){
-            media = new Media(musicFiles.get(track).toString());
-            if(mp!=null){
-                mp.stop();
-
-            }
-            mp = new MediaPlayer(media);
-            mp.play();
-            mp.setOnEndOfMedia(new Runnable() {
-                @Override
-                public void run() {
-                    mp.seek(Duration.ZERO);
-                }
-            });
+        try {
+            AudioFormat format = inputStream.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+            Clip clip = (Clip) AudioSystem.getLine(info);
+            clip.open(inputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
-    public void setTrack(String track) {
-        this.track = track;
-    }
 }
