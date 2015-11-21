@@ -35,7 +35,7 @@ public class LevelGenerator {
         for (int i = 0; i < lvllist.size(); i++) {
             String[] lvlbr = lvllist.get(i).split(";");
             int brickW, brickH;
-            brickH = panelHeight * 3 / 4;
+            brickH = panelHeight * 3 / 4 / lvllist.size();
             brickW = panelWidth / lvlbr.length;
             int bi=0;
             for (String txtBrick :
@@ -50,22 +50,22 @@ public class LevelGenerator {
                         System.out.println("Color Assignment Error");
                     }
                     if (params[0].equals("1")) {
-                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, null, aColor, 1, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi, brickH * i, null, aColor, 1, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("2")) {
-                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, new PowerUP(brickW * bi, brickH / lvllist.size() * i), aColor, 1, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi, brickH * i, new PowerUP(brickW * bi, brickH * i), aColor, 1, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("3")) {
-                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, null, aColor, 2, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi, brickH * i, null, aColor, 2, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("4")) {
-                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, null, aColor, -1, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi, brickH * i, null, aColor, -1, brickW, brickH));
                         bi++;
                     }
                 }
