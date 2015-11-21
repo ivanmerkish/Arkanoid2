@@ -39,7 +39,7 @@ public class Sprite {
     protected void drawSprite(Graphics graphics){
         Graphics2D graphics2D = (Graphics2D)graphics;
         setQuality(graphics2D);
-        graphics2D.drawImage(image,(int)x,(int)y,null);
+        graphics2D.drawImage(image, (int) x, (int) y, width, height, null);
 
     }
 

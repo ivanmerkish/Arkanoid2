@@ -55,7 +55,7 @@ public class LevelGenerator {
                         continue;
                     }
                     if (params[0].equals("2")) {
-                        bricks.add(new Brick(brickW * bi, brickH * i, new PowerUP(brickW * bi, brickH * i), aColor, 1, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi, brickH * i, new PowerUP(brickW * bi, brickH * i, brickW, brickH), aColor, 1, brickW, brickH));
                         bi++;
                         continue;
                     }

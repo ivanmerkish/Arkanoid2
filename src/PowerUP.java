@@ -8,15 +8,16 @@ import java.io.File;
 public class PowerUP extends Sprite {
 
 
-
-
-    public PowerUP(double x, double y) {
+    public PowerUP(double x, double y, int width, int height) {
         super(x, y, null, false);
+        this.width = width;
+        this.height = height;
+        spdy = 3;
         setPowerUpEffect(PowerUpEffect.getRandom());
         try {
-            image = ImageIO.read(new File(getClass().getResource("/img/" + getPowerUpEffect().toString() + ".png").toURI()));
+            image = ImageIO.read(new File(getClass().getResource("/img/" + getPowerUpEffect().toString().toLowerCase() + "PU.png").toURI()));
         } catch (Exception e) {
-            System.out.println("PowerUP image load error");
+            System.out.println("PowerUP: " + getPowerUpEffect().toString() + " image load error ");
             e.printStackTrace();
         }
     }
