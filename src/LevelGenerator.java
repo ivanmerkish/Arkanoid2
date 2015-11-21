@@ -28,19 +28,15 @@ public class LevelGenerator {
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         ArrayList<String> lvllist = new ArrayList<>();
         String line;
-        //int lineCount = 1;
         while ((line = br.readLine()) != null) {
-            // lineCount++;
             lvllist.add(line);
         }
-        //fis.getChannel().position(0);
-        //br = new BufferedReader(new InputStreamReader(fis));
 
-        int li = 0;
         for (int i = 0; i < lvllist.size(); i++) {
-            //while ((line = br.readLine()) != null) {
-            //String[] lvlbr=line.split(";");
             String[] lvlbr = lvllist.get(i).split(";");
+            int brickW, brickH;
+            brickH = panelHeight * 3 / 4;
+            brickW = panelWidth / lvlbr.length;
             int bi=0;
             for (String txtBrick :
                     lvlbr) {
@@ -54,29 +50,27 @@ public class LevelGenerator {
                         System.out.println("Color Assignment Error");
                     }
                     if (params[0].equals("1")) {
-                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lvllist.size() * i, null, aColor, 1));
+                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, null, aColor, 1, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("2")) {
-                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lvllist.size() * i, new PowerUP(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lvllist.size() * i), aColor, 1));
+                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, new PowerUP(brickW * bi, brickH / lvllist.size() * i), aColor, 1, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("3")) {
-                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lvllist.size() * i, null, aColor, 2));
+                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, null, aColor, 2, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("4")) {
-                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lvllist.size() * i, null, aColor, -1));
+                        bricks.add(new Brick(brickW * bi, brickH / lvllist.size() * i, null, aColor, -1, brickW, brickH));
                         bi++;
-                        continue;
                     }
                 }
 
             }
-            // li++;
         }
 
         br.close();

@@ -1,7 +1,7 @@
 import java.awt.*;
 
 /**
- * Created by Ivan Merkish on 11/2/2015.
+ * Brick Class extend Sprite Class: game Brick
  */
 public class Brick extends Sprite {
     private int cycle;
@@ -9,12 +9,14 @@ public class Brick extends Sprite {
     private Color color;
     private int hardness;
 
-    public Brick(double x, double y,PowerUP powerUP,Color color, int hardness) {
+    public Brick(double x, double y, PowerUP powerUP, Color color, int hardness, int width, int height) {
         super(x, y, null, true);
         cycle = 0;
         this.powerUP = powerUP;
         this.color = color;
         this.hardness = hardness;
+        this.width = width;
+        this.height = height;
 
     }
 
