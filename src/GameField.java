@@ -68,6 +68,10 @@ public class GameField {
 
     private void updateAllItems() {
         for (Ball ball : gameBalls) {
+            if (ball.isGlued()) {
+                ball.spdx = bite.spdx;
+                ball.spdy = 0;
+            }
             ball.updateSprite();
         }
         for (Bullet bullet : bullets) {

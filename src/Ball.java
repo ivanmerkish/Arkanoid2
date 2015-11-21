@@ -141,4 +141,12 @@ public class Ball extends Sprite {
     public void setFireBall(BufferedImage fireBall) {
         this.fireBall = fireBall;
     }
+
+    public boolean isGlued() {
+        return isGlued;
+    }
+
+    public void setGlued(boolean glued) {
+        isGlued = glued;
+    }
 }
