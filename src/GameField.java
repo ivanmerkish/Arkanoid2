@@ -17,15 +17,13 @@ public class GameField {
     protected CopyOnWriteArrayList<PowerUP> powerUPs;
     protected CopyOnWriteArrayList<Bullet> bullets;
     protected Bite bite;
-    private int panelWidth;
-    private int panelHeight;
+    private int panelWidth, panelHeight;
     private LevelGenerator lg;
-    private int lifeCount;
-    private int levelCounter;
+    private int lifeCount, levelCounter;
     private BufferedImage[] powerUPSImages, biteImages;
     private BufferedImage bulletImage, fireBallImage;
 
-    public GameField(BufferedImage[] powerUPSImages, BufferedImage[] biteImages, BufferedImage bulletImage, BufferedImage fireBallImage) {
+    public GameField(BufferedImage[] powerUPSImages, BufferedImage[] biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
         this.gameBalls = new CopyOnWriteArrayList<>();
         this.bricks = new CopyOnWriteArrayList<>();
         this.powerUPs = new CopyOnWriteArrayList<>();
@@ -36,6 +34,8 @@ public class GameField {
         this.biteImages = biteImages;
         this.bulletImage = bulletImage;
         this.fireBallImage = fireBallImage;
+        this.panelHeight = panelHeight;
+        this.panelWidth = panelWidth;
 
         levelCounter = 0;
         lifeCount = 3;
@@ -45,6 +45,8 @@ public class GameField {
 
     public void init() {
         lg = new LevelGenerator(LEVELS[levelCounter]);
+        lg.setPanelHeight(panelHeight);
+        lg.setPanelWidth(panelWidth);
         try {
             bricks = lg.buildLevel();
         } catch (IOException e) {
@@ -129,7 +131,6 @@ public class GameField {
         }
         return false;
     }
-
 
 }
 

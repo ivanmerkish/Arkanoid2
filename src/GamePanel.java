@@ -31,7 +31,8 @@ public class GamePanel extends JPanel implements Runnable {
         } catch (Exception e) {
             System.out.println("Image Load Error");
         }
-        gameField = new GameField(powerUPSImages, biteImages, bulletImage, fireBallImage);
+        gameField = new GameField(powerUPSImages, biteImages, bulletImage, fireBallImage, PANELWIDTH, PANELHEIGHT);
+
 
         addKeyListener(new KeyAdapter() {
             @Override

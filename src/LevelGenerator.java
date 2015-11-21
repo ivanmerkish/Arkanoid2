@@ -10,6 +10,7 @@ public class LevelGenerator {
 
     private CopyOnWriteArrayList<Brick> bricks;
     private File levelFile;
+    private int panelWidth, panelHeight;
 
     public LevelGenerator(String levelName) {
         try {
@@ -25,6 +26,12 @@ public class LevelGenerator {
         FileInputStream fis = new FileInputStream(levelFile);
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         String line;
+        int lineCount = 0;
+        while ((line = br.readLine()) != null) {
+            lineCount++;
+        }
+        br = new BufferedReader(new InputStreamReader(fis));
+
         int li = 0;
         while ((line = br.readLine()) != null) {
             line.trim();
@@ -42,18 +49,20 @@ public class LevelGenerator {
                         System.out.println("Color Assignment Error");
                     }
                     if (params[0].equals("1")) {
-
-                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, 1));
+                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lineCount * li, null, aColor, 1));
+                        continue;
                     }
                     if (params[0].equals("2")) {
-
-                        bricks.add(new Brick(30 * bi, 20 * li, new PowerUP(30 * bi, 20 * li), aColor, 1));
+                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lineCount * li, new PowerUP(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lineCount * li), aColor, 1));
+                        continue;
                     }
                     if (params[0].equals("3")) {
-                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, 2));
+                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lineCount * li, null, aColor, 2));
+                        continue;
                     }
                     if (params[0].equals("4")) {
-                        bricks.add(new Brick(30 * bi, 20 * li, null, aColor, -1));
+                        bricks.add(new Brick(panelWidth / lvlbr.length * bi, panelHeight * 3 / 4 / lineCount * li, null, aColor, -1));
+                        continue;
                     }
                 }
                 bi++;
@@ -65,5 +74,11 @@ public class LevelGenerator {
         return bricks;
     }
 
+    public void setPanelWidth(int panelWidth) {
+        this.panelWidth = panelWidth;
+    }
 
+    public void setPanelHeight(int panelHeight) {
+        this.panelHeight = panelHeight;
+    }
 }
