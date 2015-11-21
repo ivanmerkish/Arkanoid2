@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -38,7 +39,7 @@ public class GameField {
         this.panelHeight = panelHeight;
         this.panelWidth = panelWidth;
 
-        levelCounter = 0;
+        levelCounter = 1;
         lifeCount = 3;
         init();
 
@@ -54,13 +55,15 @@ public class GameField {
             System.out.println("Level Build Error");
         }
         bite = new Bite(panelWidth / 2 - biteImages.get(0).getWidth() / 2, panelHeight - biteImages.get(0).getHeight() - 40, biteImages.get(0));
-        Ball ball = new Ball(panelWidth / 2 - 30, bite.y - 30);
+        Ball ball = new Ball(panelWidth / 2 - 30, bite.y - 10);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);
 
     }
 
-    public void updateGameField(KeyEvent event){
+    public void updateGameField(KeyEvent keyEvent, MouseEvent mouseEvent) {
+        bite.keyEvent = keyEvent;
+        bite.mouseEvent = mouseEvent;
         updateAllItems();
         collisionCheck();
 
@@ -105,7 +108,9 @@ public class GameField {
                     }
                 }
             }
-            b.isCollision(bite);
+            if (b.isCollision(bite)) {
+                b.setGlued(bite.isSticky());
+            }
             isBorder(b);
         }
         //powerUP collision;

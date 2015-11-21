@@ -10,7 +10,7 @@ public class MainFrame {
     {
         JFrame frame = new JFrame("Arkanoid");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+        frame.setSize(816, 610);
         GamePanel p = new GamePanel();
         frame.add(p);
 

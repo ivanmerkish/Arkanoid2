@@ -35,7 +35,7 @@ public class LevelGenerator {
         for (int i = 0; i < lvllist.size(); i++) {
             String[] lvlbr = lvllist.get(i).split(";");
             int brickW, brickH;
-            brickH = panelHeight * 3 / 4 / lvllist.size();
+            brickH = panelHeight / 2 / lvllist.size();
             brickW = panelWidth / lvlbr.length;
             int bi=0;
             for (String txtBrick :
@@ -68,8 +68,9 @@ public class LevelGenerator {
                         bricks.add(new Brick(brickW * bi, brickH * i, null, aColor, -1, brickW, brickH));
                         bi++;
                     }
-                }
 
+                }
+                bi++;
             }
         }
 

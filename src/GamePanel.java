@@ -129,7 +129,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void gameUpdate() {
-        gameField.updateGameField(keyEvent);
+        gameField.updateGameField(keyEvent, mouseEvent);
 
     }
 

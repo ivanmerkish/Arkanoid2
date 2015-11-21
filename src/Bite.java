@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -9,7 +10,8 @@ import java.awt.image.BufferedImage;
 public class Bite extends Sprite{
 
     protected boolean isWeapon;
-    KeyEvent event;
+    KeyEvent keyEvent;
+    MouseEvent mouseEvent;
     private int normalWidth = WIDTH * 2;
     private boolean isSticky;
     private int bulletCount, glueCounter;
@@ -38,19 +40,27 @@ public class Bite extends Sprite{
 
     @Override
     protected void updateSprite() {
-        if (event != null) {
-            switch (event.getKeyCode()) {
+        if (keyEvent != null) {
+            spdx = 10;
+            switch (keyEvent.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    spdx = 10;
                     x -= spdx;
                     break;
                 case KeyEvent.VK_RIGHT:
-                    spdx = 10;
                     x += spdx;
                     break;
             }
 
         }
+        if (mouseEvent != null) {
+            if (x - mouseEvent.getX() > 0) {
+                x += spdx;
+            }
+            if (x - mouseEvent.getX() < 0) {
+                x -= spdx;
+            }
+        }
+        spdx = 0;
         powerUPManagement();
         resize();
 
@@ -139,5 +149,9 @@ public class Bite extends Sprite{
 
     public void setNewLife(boolean newLife) {
         isNewLife = newLife;
+    }
+
+    public boolean isSticky() {
+        return isSticky;
     }
 }
