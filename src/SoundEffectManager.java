@@ -2,7 +2,7 @@ import javax.sound.sampled.*;
 import java.util.HashMap;
 
 /**
- * Created by Ivan Merkish on 11/22/2015.
+ * SoundEffectManger Class: uses to manage all sound events.
  */
 public class SoundEffectManager implements Runnable {
 
