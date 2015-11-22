@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameField {
 
     private static final int TOOLBARHEIGHT = 10;
+    private static final int MAXLIVE = 26;
     private static final String[] LEVELS = {"level1", "level2", "level3", "level4", "level5"};
     protected CopyOnWriteArrayList<Ball> gameBalls;
     protected CopyOnWriteArrayList<Brick> bricks;
@@ -22,7 +22,7 @@ public class GameField {
     protected Bite bite;
     private int panelWidth, panelHeight;
     private LevelGenerator lg;
-    private int lifeCount, levelCounter;
+    private int lifeCount, levelCounter, score;
     private ArrayList<BufferedImage> powerUPSImages, biteImages;
     private BufferedImage bulletImage, fireBallImage;
     private double stickyPoint;
@@ -46,7 +46,7 @@ public class GameField {
         isGameover = false;
 
         levelCounter = 1;
-        lifeCount = 3;
+        lifeCount = 25;
         init();
 
     }
@@ -75,9 +75,8 @@ public class GameField {
 
     }
 
-    public void updateGameField(KeyEvent keyEvent, MouseEvent mouseEvent) {
+    public void updateGameField(KeyEvent keyEvent) {
         bite.keyEvent = keyEvent;
-        bite.mouseEvent = mouseEvent;
         updateAllItems();
         collisionCheck();
 
@@ -101,6 +100,7 @@ public class GameField {
                     if ((biteXDef) != 0) {
                         ball.x = ball.x - biteXDef;
                     }
+                    ball.spdx = 0;
                     ball.spdy = 0;
                     stickyPoint = bite.x;
                 }
@@ -122,6 +122,10 @@ public class GameField {
         if (bite.isWeapon) {
             bite.image = biteImages.get(1);
         }
+        if (bite.isNewLife() || lifeCount < MAXLIVE) {
+            lifeCount++;
+            bite.setNewLife(false);
+        }
         bite.updateSprite();
         for (PowerUP powerUP : powerUPs) {
             powerUP.updateSprite();
@@ -138,9 +142,11 @@ public class GameField {
                             powerUPs.add(brick.getPowerUP());
                         }
                         bricks.remove(brick);
+                        score += 100;
                         break;
                     } else if (brick.getHardness() - 1 > 0) {
                         brick.setHardness(brick.getHardness() - 1);
+                        score += 50;
                     } else {
                         brick.setHardness(-1);
                     }
@@ -203,7 +209,7 @@ public class GameField {
             gameBalls.clear();
             int biteWidth, biteHeight;
             biteWidth = bricks.get(0).width * 3;
-            biteHeight = bricks.get(0).height / 2;
+            biteHeight = bricks.get(0).height;
             bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
             Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26);
             ball.setFireBall(fireBallImage);
@@ -214,6 +220,14 @@ public class GameField {
 
     public boolean isGameover() {
         return isGameover;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getLifeCount() {
+        return lifeCount;
     }
 }
 

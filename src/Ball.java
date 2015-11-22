@@ -7,13 +7,12 @@ import java.awt.image.BufferedImage;
  * Ball Class extend Sprite Class: game Ball
  */
 public class Ball extends Sprite {
-    private static final double baseSpdx = 1;
-    private static final double baseSpdy = 1;
 
     private double angle;
     private AffineTransform af;
     private PowerUpEffect currPowerUpEffect;
     private PowerUpEffect lastPowerUpEffect;
+    private int speedDef;
 
     private BufferedImage fireBall;
     private boolean isGlued;
@@ -21,12 +20,13 @@ public class Ball extends Sprite {
     public Ball(double x, double y) {
         super(x, y, null, false);
         this.angle = 10;
-        this.currPowerUpEffect = PowerUpEffect.NORMALBALL;
+        this.currPowerUpEffect = null;
         af = new AffineTransform();
         fireBall = null;
         width = 25;
         height = 25;
         isGlued = true;
+        speedDef = 3;
 
 
     }
@@ -46,36 +46,66 @@ public class Ball extends Sprite {
 
     @Override
     protected void updateSprite() {
-        switch (currPowerUpEffect){
-            case NORMAL:
-                if (lastPowerUpEffect == PowerUpEffect.SMALL) {
-                    af.scale(2,2);
-                }
-                if (lastPowerUpEffect == PowerUpEffect.LARGE) {
-                    af.scale(0.5,0.5);
-                }
-                if (lastPowerUpEffect == PowerUpEffect.FAST || lastPowerUpEffect == PowerUpEffect.SLOW) {
-                    spdx = baseSpdx;
-                    spdy = baseSpdy;
-                }
-                break;
-            case FAST: spdx *=2;
-                break;
+        if (currPowerUpEffect != null) {
+            switch (currPowerUpEffect) {
+                case NORMAL:
+                    if (lastPowerUpEffect == PowerUpEffect.SMALL) {
+                        width *= 2;
+                        height *= 2;
+                        lastPowerUpEffect = PowerUpEffect.NORMAL;
+                        //af.scale(2,2);
+                    }
+                    if (lastPowerUpEffect == PowerUpEffect.LARGE) {
+                        width *= 0.5;
+                        height *= 0.5;
+                        lastPowerUpEffect = PowerUpEffect.LARGE;
 
-            case SLOW: spdx *=0.5;
-                break;
-            case LARGE:
-                if (lastPowerUpEffect != PowerUpEffect.LARGE) {
-                    af.scale(2,2);
-                }
-                break;
-            case SMALL:
-                if (lastPowerUpEffect != PowerUpEffect.SMALL)
-                    af.scale(0.5,0.5);
+                        //af.scale(0.5,0.5);
+                    }
+                    if (lastPowerUpEffect == PowerUpEffect.FAST || lastPowerUpEffect == PowerUpEffect.SLOW) {
+                        speedDef = 3;
+                    }
+                    break;
+                case FAST:
+                    if (speedDef < 10) {
+                        speedDef *= 2;
+                    }
+                    lastPowerUpEffect = PowerUpEffect.FAST;
+                    break;
+
+                case SLOW:
+                    if (speedDef > 2) {
+
+                        speedDef *= 0.5;
+                    }
+                    lastPowerUpEffect = PowerUpEffect.SLOW;
+                    break;
+                case LARGE:
+                    if (lastPowerUpEffect != PowerUpEffect.LARGE) {
+                        width *= 2;
+                        height *= 2;
+                        lastPowerUpEffect = PowerUpEffect.LARGE;
+                        //af.scale(2,2);
+                    }
+                    break;
+                case SMALL:
+                    if (lastPowerUpEffect != PowerUpEffect.SMALL) {
+                        width *= 0.5;
+                        height *= 0.5;
+                        lastPowerUpEffect = PowerUpEffect.SMALL;
+                        //af.scale(0.5, 0.5);
+                    }
+                    break;
+                case FIREBALL:
+                    image = fireBall;
+                    break;
+
+            }
+            currPowerUpEffect = null;
         }
         if (!isGlued) {//
-            spdx = Math.sin(Math.toRadians(angle)) * 3;
-            spdy = -Math.cos(Math.toRadians(angle)) * 3;
+            spdx = Math.sin(Math.toRadians(angle)) * speedDef;
+            spdy = -Math.cos(Math.toRadians(angle)) * speedDef;
 
         }
         x += spdx;
@@ -130,5 +160,13 @@ public class Ball extends Sprite {
 
     public void setGlued(boolean glued) {
         isGlued = glued;
+    }
+//    public boolean isFireBall(){
+//
+//
+//    }
+
+    public void setSpeedDef(int speedDef) {
+        this.speedDef = speedDef;
     }
 }
