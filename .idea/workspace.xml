@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9fe4f70b-f7c9-47f2-8b16-bec5a6477345" name="Default" comment="add custom font&#10;level design">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GameField.java" afterPath="$PROJECT_DIR$/src/GameField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/GamePanel.java" afterPath="$PROJECT_DIR$/src/GamePanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/README" afterPath="$PROJECT_DIR$/src/README" />
     </list>
     <ignored path="Arkanoid.iws" />
@@ -35,10 +33,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GamePanel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GamePanel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/GamePanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.0949152">
+            <state vertical-scroll-proportion="0.0">
               <caret line="95" column="25" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -54,11 +52,11 @@
               <caret line="168" column="28" selection-start-line="168" selection-start-column="28" selection-end-line="168" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#12866#12867#0" expanded="true" />
-                <element signature="e#12913#12914#0" expanded="true" />
-                <element signature="e#12964#12965#0" expanded="true" />
-                <element signature="e#13006#13007#0" expanded="true" />
-                <marker date="1448230787271" expanded="true" signature="3425:3892" placeholder="{...}" />
+                <element signature="e#12803#12804#0" expanded="true" />
+                <element signature="e#12850#12851#0" expanded="true" />
+                <element signature="e#12967#12968#0" expanded="true" />
+                <element signature="e#13009#13010#0" expanded="true" />
+                <marker date="1448230874780" expanded="true" signature="3428:3895" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -77,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/README">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="30" column="39" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="39" />
+            <state vertical-scroll-proportion="0.086440675">
+              <caret line="3" column="118" selection-start-line="3" selection-start-column="118" selection-end-line="3" selection-end-column="118" />
               <folding />
             </state>
           </provider>
@@ -131,9 +129,9 @@
         <option value="$PROJECT_DIR$/src/levels/level2" />
         <option value="$PROJECT_DIR$/src/levels/level3" />
         <option value="$PROJECT_DIR$/src/levels/level4" />
-        <option value="$PROJECT_DIR$/src/README" />
-        <option value="$PROJECT_DIR$/src/GamePanel.java" />
         <option value="$PROJECT_DIR$/src/GameField.java" />
+        <option value="$PROJECT_DIR$/src/GamePanel.java" />
+        <option value="$PROJECT_DIR$/src/README" />
       </list>
     </option>
   </component>
@@ -722,13 +720,7 @@
       <workItem from="1447933497164" duration="6595000" />
       <workItem from="1447954614440" duration="39000" />
       <workItem from="1448008799075" duration="54246000" />
-      <workItem from="1448145702387" duration="65020000" />
-    </task>
-    <task id="LOCAL-00001" summary="Add Level1">
-      <created>1447852025465</created>
-      <option name="number" value="00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1447852025465</updated>
+      <workItem from="1448145702387" duration="65099000" />
     </task>
     <task id="LOCAL-00002" summary="LevelGenerator Upgrade">
       <created>1447856748897</created>
@@ -1018,11 +1010,17 @@
       <option name="project" value="LOCAL" />
       <updated>1448225820885</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="add custom font&#10;level design">
+      <created>1448230878008</created>
+      <option name="number" value="00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1448230878009</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137995000" />
+    <option name="totallyTimeSpent" value="138074000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1035,7 +1033,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1044,7 +1042,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33044422" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33044422" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1913646" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1146,7 +1144,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/GamePanel.java</url>
-          <line>126</line>
+          <line>123</line>
           <properties />
           <option name="timeStamp" value="130" />
         </line-breakpoint>
@@ -1241,11 +1239,11 @@
           <caret line="130" column="59" selection-start-line="130" selection-start-column="59" selection-end-line="130" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12866#12867#0" expanded="true" />
-            <element signature="e#12913#12914#0" expanded="true" />
-            <element signature="e#12964#12965#0" expanded="true" />
-            <element signature="e#13006#13007#0" expanded="true" />
-            <marker date="1448230787271" expanded="true" signature="3425:3892" placeholder="{...}" />
+            <element signature="e#12803#12804#0" expanded="true" />
+            <element signature="e#12850#12851#0" expanded="true" />
+            <element signature="e#12967#12968#0" expanded="true" />
+            <element signature="e#13009#13010#0" expanded="true" />
+            <marker date="1448230874780" expanded="true" signature="3428:3895" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1283,11 +1281,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12866#12867#0" expanded="true" />
-            <element signature="e#12913#12914#0" expanded="true" />
-            <element signature="e#12964#12965#0" expanded="true" />
-            <element signature="e#13006#13007#0" expanded="true" />
-            <marker date="1448230787271" expanded="true" signature="3425:3892" placeholder="{...}" />
+            <element signature="e#12803#12804#0" expanded="true" />
+            <element signature="e#12850#12851#0" expanded="true" />
+            <element signature="e#12967#12968#0" expanded="true" />
+            <element signature="e#13009#13010#0" expanded="true" />
+            <marker date="1448230874780" expanded="true" signature="3428:3895" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1341,11 +1339,11 @@
           <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12866#12867#0" expanded="true" />
-            <element signature="e#12913#12914#0" expanded="true" />
-            <element signature="e#12964#12965#0" expanded="true" />
-            <element signature="e#13006#13007#0" expanded="true" />
-            <marker date="1448230787271" expanded="true" signature="3425:3892" placeholder="{...}" />
+            <element signature="e#12803#12804#0" expanded="true" />
+            <element signature="e#12850#12851#0" expanded="true" />
+            <element signature="e#12967#12968#0" expanded="true" />
+            <element signature="e#13009#13010#0" expanded="true" />
+            <marker date="1448230874780" expanded="true" signature="3428:3895" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1389,11 +1387,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12866#12867#0" expanded="true" />
-            <element signature="e#12913#12914#0" expanded="true" />
-            <element signature="e#12964#12965#0" expanded="true" />
-            <element signature="e#13006#13007#0" expanded="true" />
-            <marker date="1448230787271" expanded="true" signature="3425:3892" placeholder="{...}" />
+            <element signature="e#12803#12804#0" expanded="true" />
+            <element signature="e#12850#12851#0" expanded="true" />
+            <element signature="e#12967#12968#0" expanded="true" />
+            <element signature="e#13009#13010#0" expanded="true" />
+            <marker date="1448230874780" expanded="true" signature="3428:3895" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1415,11 +1413,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12866#12867#0" expanded="true" />
-            <element signature="e#12913#12914#0" expanded="true" />
-            <element signature="e#12964#12965#0" expanded="true" />
-            <element signature="e#13006#13007#0" expanded="true" />
-            <marker date="1448230787271" expanded="true" signature="3425:3892" placeholder="{...}" />
+            <element signature="e#12803#12804#0" expanded="true" />
+            <element signature="e#12850#12851#0" expanded="true" />
+            <element signature="e#12967#12968#0" expanded="true" />
+            <element signature="e#13009#13010#0" expanded="true" />
+            <marker date="1448230874780" expanded="true" signature="3428:3895" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -1598,14 +1596,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/README">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="39" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Paddle.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1623,22 +1613,30 @@
           <caret line="168" column="28" selection-start-line="168" selection-start-column="28" selection-end-line="168" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12866#12867#0" expanded="true" />
-            <element signature="e#12913#12914#0" expanded="true" />
-            <element signature="e#12964#12965#0" expanded="true" />
-            <element signature="e#13006#13007#0" expanded="true" />
-            <marker date="1448230787271" expanded="true" signature="3425:3892" placeholder="{...}" />
+            <element signature="e#12803#12804#0" expanded="true" />
+            <element signature="e#12850#12851#0" expanded="true" />
+            <element signature="e#12967#12968#0" expanded="true" />
+            <element signature="e#13009#13010#0" expanded="true" />
+            <marker date="1448230874780" expanded="true" signature="3428:3895" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/GamePanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.0949152">
+        <state vertical-scroll-proportion="0.0">
           <caret line="95" column="25" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.086440675">
+          <caret line="3" column="118" selection-start-line="3" selection-start-column="118" selection-end-line="3" selection-end-column="118" />
+          <folding />
         </state>
       </provider>
     </entry>
