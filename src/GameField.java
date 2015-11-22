@@ -52,10 +52,10 @@ public class GameField {
     }
 
     public void init() {
-        MusicPlayer m = new MusicPlayer();
+        /*MusicPlayer m = new MusicPlayer();
 
         Thread t = new Thread(m);
-        t.run();
+        t.run();*/
         lg = new LevelGenerator(LEVELS[levelCounter]);
         lg.setPanelHeight(panelHeight);
         lg.setPanelWidth(panelWidth);
@@ -154,6 +154,8 @@ public class GameField {
                     if (b.isFireBall()) {
                         if (brick.getPowerUP() != null) {
                             powerUPs.add(brick.getPowerUP());
+                            Thread t = new Thread(new SoundEffectManager("brickExplosionEvent"));
+                            t.run();
                         }
                         bricks.remove(brick);
                         score += 100;
@@ -162,14 +164,20 @@ public class GameField {
                             if (brick.getPowerUP() != null) {
                                 powerUPs.add(brick.getPowerUP());
                             }
+                            Thread t = new Thread(new SoundEffectManager("brickExplosionEvent"));
+                            t.run();
                             bricks.remove(brick);
                             score += 100;
                             break;
                         } else if (brick.getHardness() - 1 > 0) {
                             brick.setHardness(brick.getHardness() - 1);
                             score += 50;
+                            Thread t = new Thread(new SoundEffectManager("ball2brickCollision"));
+                            t.run();
                         } else {
                             brick.setHardness(-1);
+                            Thread t = new Thread(new SoundEffectManager("ball2brickCollision"));
+                            t.run();
                         }
                     }
                 }
@@ -205,9 +213,13 @@ public class GameField {
             }
             if (rectangle.intersectsLine(bottomBorder)) {
                 if (gameBalls.size() == 1) {
+                    Thread t = new Thread(new SoundEffectManager("lifeLooseEvent"));
+                    t.run();
                     lifeCount--;
                     restart();
                 } else {
+                    Thread t = new Thread(new SoundEffectManager("lostBallEvent"));
+                    t.run();
                     gameBalls.remove(sprite);
                 }
 

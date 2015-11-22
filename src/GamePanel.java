@@ -3,7 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ public class GamePanel extends JPanel implements Runnable {
     private ArrayList<BufferedImage> powerUPSImages, biteImages;
     private BufferedImage bulletImage, fireBallImage, backgroundImage, weaponPUImage, fireballPUImage, gluePUImage;
     private KeyEvent keyEvent;
-    private MouseEvent mouseEvent;
 
 
     public GamePanel() {

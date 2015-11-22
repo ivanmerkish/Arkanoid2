@@ -8,9 +8,12 @@ public class SoundEffectManager implements Runnable {
 
     private AudioInputStream inputStream;
     private HashMap<String, String> effects;
+    private String effect;
 
-    public SoundEffectManager() {
+    public SoundEffectManager(String effect) {
+        effects = new HashMap<>();
 
+        this.effect = effect;
         effects.put("transform", "board_transform.wav");
         effects.put("ball2biteCollision", "collision_ball_board.wav");
         effects.put("ball2brickCollision", "collision_ball_brick_3.wav");
@@ -21,14 +24,13 @@ public class SoundEffectManager implements Runnable {
         effects.put("lvlCompleteEvent", "event_win_level_planets.wav");
         effects.put("brickExplosionEvent", "normal_star_explosion.wav");
         effects.put("fireBallEvent", "transformer_fire_ball.wav");
-
-
+        loadEffectToStream(effect);
     }
 
-    void loadEffectToStream(String effectFile) {
+    public void loadEffectToStream(String effectFile) {
         try {
             inputStream = AudioSystem.getAudioInputStream(
-                    getClass().getResourceAsStream("/mp3/" + effectFile));
+                    getClass().getResourceAsStream("/mp3/" + effects.get(effectFile)));
         } catch (Exception e) {
             System.out.println("effect file error");
         }

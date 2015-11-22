@@ -21,6 +21,7 @@ public class Bite extends Sprite{
     private boolean isFirstLaunch;
     private boolean isNewPowerUP;
     private PowerUpEffect ballPowerUpEffect;
+    private Thread effectThread;
 
 
     public Bite(double x, double y, BufferedImage image, int width, int height) {
@@ -36,8 +37,6 @@ public class Bite extends Sprite{
         isLeftBorder = false;
         isRightBorder = false;
         ballPowerUpEffect = null;
-
-
     }
 
     @Override
@@ -81,6 +80,7 @@ public class Bite extends Sprite{
     }
 
     private void resize() {
+
         if (scale > 1) {
             if (normalWidth * scale > width) {
                 x--;
@@ -133,16 +133,24 @@ public class Bite extends Sprite{
                     scale = 1;
                     isSticky = false;
                     isWeapon = false;
+                    effectThread = new Thread(new SoundEffectManager("transform"));
+                    effectThread.run();
                     break;
                 case GROW:
+                    effectThread = new Thread(new SoundEffectManager("transform"));
+                    effectThread.run();
                     if (scale < 1) scale = 1;
                     if (scale < 2) scale += 0.5;
                     break;
                 case SHRINK:
+                    effectThread = new Thread(new SoundEffectManager("transform"));
+                    effectThread.run();
                     if (scale > 1) scale = 1;
                     if (!(scale < 0.25)) scale *= 0.5;
                     break;
                 case WEAPON:
+                    effectThread = new Thread(new SoundEffectManager("transform"));
+                    effectThread.run();
                     bulletCount += 10;
                     isWeapon = true;
                     break;

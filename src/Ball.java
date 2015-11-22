@@ -62,6 +62,9 @@ public class Ball extends Sprite {
                     if (speedDef != DIF_SPEED) {
                         speedDef = DIF_SPEED;
                     }
+                    if (isFireBall) {
+                        isFireBall = false;
+                    }
                     break;
                 case FAST:
                     if (speedDef < 10) {
@@ -92,6 +95,8 @@ public class Ball extends Sprite {
                     }
                     break;
                 case FIREBALL:
+                    Thread t = new Thread(new SoundEffectManager("fireBallEvent"));
+                    t.run();
                     image = fireBall;
                     isFireBall = true;
                     break;
@@ -119,8 +124,12 @@ public class Ball extends Sprite {
                 if ((rect.getX() + rect.getWidth() / 2) > (sprite.x + sprite.width / 3 * 2)) {
                     angle = angle + 5;
                 }
+                if (!isGlued) {
+                    Thread t = new Thread(new SoundEffectManager("ball2biteCollision"));
+                    t.run();
+                }
             }
-            System.out.println(angle);
+
             angle = 180 - angle;
             return true;
         }
@@ -151,10 +160,6 @@ public class Ball extends Sprite {
         this.angle = angle;
     }
 
-    public void setFireBall(BufferedImage fireBall) {
-        this.fireBall = fireBall;
-    }
-
     public boolean isGlued() {
         return isGlued;
     }
@@ -162,20 +167,17 @@ public class Ball extends Sprite {
     public void setGlued(boolean glued) {
         isGlued = glued;
     }
+
+    public boolean isFireBall() {
+        return isFireBall;
+    }
 //    public boolean isFireBall(){
 //
 //
 //    }
 
-    public void setSpeedDef(int speedDef) {
-        this.speedDef = speedDef;
+    public void setFireBall(BufferedImage fireBall) {
+        this.fireBall = fireBall;
     }
 
-    public boolean isFireBall() {
-        return isFireBall;
-    }
-
-    public void setFireBall(boolean fireBall) {
-        isFireBall = fireBall;
-    }
 }
