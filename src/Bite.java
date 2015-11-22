@@ -201,4 +201,12 @@ public class Bite extends Sprite{
     public void setGlueCounter(int glueCounter) {
         this.glueCounter = glueCounter;
     }
+
+    public int getBulletCount() {
+        return bulletCount;
+    }
+
+    public void setBulletCount(int bulletCount) {
+        this.bulletCount = bulletCount;
+    }
 }

@@ -8,16 +8,15 @@ import java.awt.image.BufferedImage;
 public class Ball extends Sprite {
 
     private static final int DIF_SIZE = 25;
-    private static final int DIF_SPEED = 3;
+    private static final int DIF_SPEED = 5;
     private double angle, oldAngle;
     private AffineTransform af;
     private PowerUpEffect currPowerUpEffect;
-    private PowerUpEffect lastPowerUpEffect;
     private int speedDef;
     private BufferedImage fireBall;
-    private boolean isGlued, isFireBall;
+    private boolean isGlued, isFireBall, isFirstLaunch;
 
-    public Ball(double x, double y) {
+    public Ball(double x, double y, boolean isFirstLaunch) {
         super(x, y, null, false);
         this.angle = 10;
         this.currPowerUpEffect = null;
@@ -25,7 +24,11 @@ public class Ball extends Sprite {
         fireBall = null;
         width = DIF_SIZE;
         height = DIF_SIZE;
-        isGlued = true;
+        this.isFirstLaunch = isFirstLaunch;
+        if (this.isFirstLaunch) {
+            isGlued = true;
+
+        }
         speedDef = DIF_SPEED;
         isFireBall = false;
 
@@ -54,7 +57,7 @@ public class Ball extends Sprite {
     protected void updateSprite() {
         if (currPowerUpEffect != null) {
             switch (currPowerUpEffect) {
-                case NORMAL:
+                case NORMALBALL:
                     if (DIF_SIZE != width) {
                         width = DIF_SIZE;
                         height = DIF_SIZE;
@@ -70,7 +73,6 @@ public class Ball extends Sprite {
                     if (speedDef < 10) {
                         speedDef *= 2;
                     }
-                    lastPowerUpEffect = PowerUpEffect.FAST;
                     break;
 
                 case SLOW:
@@ -78,7 +80,6 @@ public class Ball extends Sprite {
 
                         speedDef *= 0.5;
                     }
-                    lastPowerUpEffect = PowerUpEffect.SLOW;
                     break;
                 case LARGE:
                     if (width <= DIF_SIZE) {
@@ -118,11 +119,14 @@ public class Ball extends Sprite {
         if (rect.intersectsLine(sprite.x, sprite.y, sprite.x + sprite.width, sprite.y) ||
                 rect.intersectsLine(sprite.x, sprite.y + sprite.height, sprite.x + sprite.width, sprite.y + sprite.height)) {
             if (sprite instanceof Bite) {
+                while (y + height > sprite.y) {
+                    y--;
+                }
                 if ((rect.getX() + rect.getWidth() / 2) < (sprite.x + sprite.width / 3)) {
-                    angle = angle - 5;
+                    angleChanges(true);
                 }
                 if ((rect.getX() + rect.getWidth() / 2) > (sprite.x + sprite.width / 3 * 2)) {
-                    angle = angle + 5;
+                    angleChanges(false);
                 }
                 if (!isGlued) {
                     Thread t = new Thread(new SoundEffectManager("ball2biteCollision"));
@@ -148,7 +152,6 @@ public class Ball extends Sprite {
     }
 
     public void setCurrPowerUpEffect(PowerUpEffect currPowerUpEffect) {
-        this.lastPowerUpEffect = this.currPowerUpEffect;
         this.currPowerUpEffect = currPowerUpEffect;
     }
 
@@ -180,4 +183,36 @@ public class Ball extends Sprite {
         this.fireBall = fireBall;
     }
 
+    private void angleChanges(boolean left) {
+        if (left) {
+            if (angle < 0) {
+                angle -= 10;
+            } else
+                angle += 10;
+        } else {
+            if (angle < 0) {
+                angle += 10;
+            } else
+                angle -= 10;
+        }
+        if (angle > 360) {
+            angle -= 360;
+        }
+        if (angle < 360) {
+            angle += 360;
+        }
+        if (angle == 90) {
+            if (left) {
+                angle += 10;
+            } else {
+                angle -= 10;
+            }
+        } else if (angle == -90) {
+            if (left) {
+                angle -= 10;
+            } else {
+                angle += 10;
+            }
+        }
+    }
 }

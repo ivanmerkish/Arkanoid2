@@ -49,17 +49,24 @@ public class GamePanel extends JPanel implements Runnable {
 
         addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public synchronized void keyTyped(KeyEvent e) {
+
             }
 
             @Override
             public synchronized void keyPressed(KeyEvent e) {
-                keyEvent = e;
+                if (e.getKeyCode() != KeyEvent.VK_SPACE) {
+                    keyEvent = e;
+                }
             }
 
             @Override
             public synchronized void keyReleased(KeyEvent e) {
-                keyEvent = null;
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    keyEvent = e;
+                } else {
+                    keyEvent = null;
+                }
             }
         });
     }
@@ -108,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) dbg;
         g2.drawImage(backgroundImage, 0, 0, null);
         scoreRender(dbg);
+        effectRender(dbg);
         gameField.bite.drawSprite(dbg);
         for (Ball ball : gameField.gameBalls) {
             ball.drawSprite(dbg);
@@ -126,6 +134,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void gameUpdate() {
         gameField.updateGameField(keyEvent);
+        if (keyEvent != null && keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            keyEvent = null;
+        }
 
     }
 
@@ -170,15 +181,25 @@ public class GamePanel extends JPanel implements Runnable {
         Font scoreFont = new Font(FONTNAME, Font.BOLD, 30);
         FontMetrics fm = graphics.getFontMetrics(scoreFont);
         String effectString = "Effects:";
-
-        graphics.drawString(effectString, PANELWIDTH - INFOPANELWIDHT + 20, fm.getHeight());
+        int userPanelX = PANELWIDTH - INFOPANELWIDHT + 20;
+        graphics.drawString(effectString, userPanelX, fm.getHeight() + 180);
         int i = 0;
+        int imgW = weaponPUImage.getWidth() / 5;
+        int imgH = weaponPUImage.getHeight() / 5;
+        graphics.setColor(new Color(0x3edc00));
         if (gameField.bite.isWeapon) {
-            graphics.drawImage(weaponPUImage, PANELWIDTH - INFOPANELWIDHT + 20 + i * 25, (int) (fm.getHeight() * 1.5d) + 130, gameField.bite.width / 7, gameField.bite.height / 7, this);
+            graphics.drawImage(weaponPUImage, userPanelX, (int) (fm.getHeight() * 1.5d) + 180 + i * imgH, imgW, imgH, this);
+            String bullets = "X " + gameField.bite.getBulletCount();
+            graphics.drawString(bullets, userPanelX + imgW + 10, fm.getHeight() * 2 + 180 + i * imgH);
             i++;
-        } else if (gameField.bite.isSticky()) {
-            graphics.drawImage(gluePUImage, PANELWIDTH - INFOPANELWIDHT + 20 + i * 25, (int) (fm.getHeight() * 1.5d) + 130, gameField.bite.width / 7, gameField.bite.height / 7, this);
-            i++;
+        }
+        if (gameField.bite.isSticky()) {
+            if (!gameField.isGameLaunch()) {
+                String glue = "X " + gameField.bite.getGlueCounter();
+                graphics.drawImage(gluePUImage, userPanelX, (int) (fm.getHeight() * 1.5d) + 180 + i * imgH, imgW, imgH, this);
+                graphics.drawString(glue, userPanelX + imgW + 10, fm.getHeight() * 2 + 180 + i * imgH);
+                i++;
+            }
         }
         /*else {
             for (Ball b : gameField.gameBalls) {

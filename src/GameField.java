@@ -68,7 +68,7 @@ public class GameField {
         biteWidth = bricks.get(0).width * 3;
         biteHeight = bricks.get(0).height;
         bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
-        Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26);
+        Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26, gameLaunch);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);
         stickyPoint = bite.x;
@@ -84,21 +84,34 @@ public class GameField {
 
     private void updateAllItems() {
         for (Ball ball : gameBalls) {
-            if (ball.isGlued()) {
+            if (ball.isGlued() || bite.isWeapon) {
                 if (bite.keyEvent != null && bite.keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
-                    if (gameLaunch) {
-                        bite.setSticky(false);
-                        gameLaunch = false;
+                    if (ball.isGlued()) {
+                        if (gameLaunch) {
+                            bite.setSticky(false);
+                            gameLaunch = false;
+                        }
+                        if (bite.getGlueCounter() > 0) {
+                            bite.setGlueCounter(bite.getGlueCounter() - 1);
+                        }
+
+
+                        ball.setGlued(false);
+                        if (ball.getAngle() > 180) {
+                            ball.setAngle(ball.getAngle() - 180);
+                        }
                     }
-                    if (bite.getGlueCounter() > 0) {
-                        bite.setGlueCounter(bite.getGlueCounter() - 1);
+                    if (bite.isWeapon) {
+                        bullets.add(new Bullet(bite.x, bite.y, bulletImage));
+                        bullets.add(new Bullet(bite.x + bite.width, bite.y, bulletImage));
+                        bite.setBulletCount(bite.getBulletCount() - 1);
+                        bite.keyEvent = null;
+                        if (bite.getBulletCount() < 0) {
+                            bite.isWeapon = false;
+                        }
                     }
 
-                    ball.setGlued(false);
-                    if (ball.getAngle() > 180) {
-                        ball.setAngle(ball.getAngle() - 180);
-                    }
-                } else {
+                } else if (ball.isGlued()) {
                     double biteXDef = stickyPoint - bite.x;
                     if ((biteXDef) != 0) {
                         ball.x = ball.x - biteXDef;
@@ -106,15 +119,16 @@ public class GameField {
                     ball.spdx = 0;
                     ball.spdy = 0;
                     stickyPoint = bite.x;
+
                 }
             }
             if (bite.getBallPowerUpEffect() != null) {
                 ball.setCurrPowerUpEffect(bite.getBallPowerUpEffect());
                 if (bite.getBallPowerUpEffect() == Sprite.PowerUpEffect.TRIPLE) {
-                    Ball newBall = new Ball(ball.x, ball.y);
+                    Ball newBall = new Ball(ball.x, ball.y, gameLaunch);
                     newBall.setAngle(ball.getAngle() + Math.random() * 90);
                     gameBalls.add(newBall);
-                    newBall = new Ball(ball.x, ball.y);
+                    newBall = new Ball(ball.x, ball.y, gameLaunch);
                     newBall.setAngle(ball.getAngle() - Math.random() * 90);
                     gameBalls.add(newBall);
                 }
@@ -144,6 +158,9 @@ public class GameField {
         for (PowerUP powerUP : powerUPs) {
             powerUP.updateSprite();
         }
+        for (Bullet bullet : bullets) {
+            bullet.updateSprite();
+        }
     }
 
     private void collisionCheck(){
@@ -160,24 +177,8 @@ public class GameField {
                         bricks.remove(brick);
                         score += 100;
                     } else {
-                        if (brick.getHardness() - 1 == 0) {
-                            if (brick.getPowerUP() != null) {
-                                powerUPs.add(brick.getPowerUP());
-                            }
-                            Thread t = new Thread(new SoundEffectManager("brickExplosionEvent"));
-                            t.run();
-                            bricks.remove(brick);
-                            score += 100;
+                        if (brickRemove(brick)) {
                             break;
-                        } else if (brick.getHardness() - 1 > 0) {
-                            brick.setHardness(brick.getHardness() - 1);
-                            score += 50;
-                            Thread t = new Thread(new SoundEffectManager("ball2brickCollision"));
-                            t.run();
-                        } else {
-                            brick.setHardness(-1);
-                            Thread t = new Thread(new SoundEffectManager("ball2brickCollision"));
-                            t.run();
                         }
                     }
                 }
@@ -190,12 +191,25 @@ public class GameField {
             }
             isBorder(b);
         }
-        //Bite collision;
+        //Bite collisions;
+        //Bite Border collision
         isBorder(bite);
         //powerUP collision;
         for (PowerUP powerUP : powerUPs) {
             if (bite.isCollision(powerUP) || isBorder(powerUP)) {
                 powerUPs.remove(powerUP);
+            }
+        }
+
+        //Bullets Collisions
+        for (Bullet bullet : bullets) {
+            for (Brick brick : bricks) {
+                if (bullet.isCollision(brick)) {
+                    if (brickRemove(brick)) {
+                        bullets.remove(bullet);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -208,7 +222,12 @@ public class GameField {
         Rectangle2D rectangle = new Rectangle.Double(sprite.x, sprite.y, sprite.width, sprite.height);
         if (sprite instanceof Ball) {
             if (rectangle.intersectsLine(upperBorder)) {
+                while (sprite.y < 15) {
+                    sprite.y++;
+                }
                 ((Ball) sprite).setAngle(180 - ((Ball) sprite).getAngle());
+                Thread t = new Thread(new SoundEffectManager("ballCollision"));
+                t.run();
                 return true;
             }
             if (rectangle.intersectsLine(bottomBorder)) {
@@ -225,7 +244,15 @@ public class GameField {
 
             }
             if (rectangle.intersectsLine(leftBorder) || rectangle.intersectsLine(rightBorder)) {
+                while (sprite.x < 15) {
+                    sprite.x++;
+                }
+                while (sprite.x > panelWidth) {
+                    sprite.x--;
+                }
                 ((Ball) sprite).setAngle(360 - ((Ball) sprite).getAngle());
+                Thread t = new Thread(new SoundEffectManager("ballCollision"));
+                t.run();
                 return true;
             }
         }
@@ -254,7 +281,7 @@ public class GameField {
             biteWidth = bricks.get(0).width * 3;
             biteHeight = bricks.get(0).height;
             bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
-            Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26);
+            Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26, gameLaunch);
             ball.setFireBall(fireBallImage);
             gameBalls.add(ball);
             stickyPoint = bite.x;
@@ -271,6 +298,33 @@ public class GameField {
 
     public int getLifeCount() {
         return lifeCount;
+    }
+
+    public boolean isGameLaunch() {
+        return gameLaunch;
+    }
+
+    public boolean brickRemove(Brick brick) {
+        if (brick.getHardness() - 1 == 0) {
+            if (brick.getPowerUP() != null) {
+                powerUPs.add(brick.getPowerUP());
+            }
+            Thread t = new Thread(new SoundEffectManager("brickExplosionEvent"));
+            t.run();
+            bricks.remove(brick);
+            score += 100;
+            return true;
+        } else if (brick.getHardness() - 1 > 0) {
+            brick.setHardness(brick.getHardness() - 1);
+            score += 50;
+            Thread t = new Thread(new SoundEffectManager("ball2brickCollision"));
+            t.run();
+        } else {
+            brick.setHardness(-1);
+            Thread t = new Thread(new SoundEffectManager("ball2brickCollision"));
+            t.run();
+        }
+        return false;
     }
 }
 
