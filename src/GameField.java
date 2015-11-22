@@ -20,6 +20,7 @@ public class GameField {
     protected CopyOnWriteArrayList<PowerUP> powerUPs;
     protected CopyOnWriteArrayList<Bullet> bullets;
     protected Paddle paddle;
+    private boolean startNext;
     private int panelWidth, panelHeight;
     private LevelGenerator lg;
     private int lifeCount, levelCounter, score;
@@ -42,6 +43,7 @@ public class GameField {
         this.fireBallImage = fireBallImage;
         this.panelHeight = panelHeight;
         this.panelWidth = panelWidth;
+        startNext = false;
         gameLaunch = true;
         isGameOver = false;
         isLevelComplete = false;
@@ -54,10 +56,7 @@ public class GameField {
     }
 
     public void init() {
-        MusicPlayer m = new MusicPlayer();
-
-        Thread t = new Thread(m);
-        t.run();
+        isLevelComplete = false;
         lg = new LevelGenerator(LEVELS[levelCounter]);
         lg.setPanelHeight(panelHeight);
         lg.setPanelWidth(panelWidth);
@@ -72,12 +71,16 @@ public class GameField {
         paddle = new Paddle(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
         Ball ball = new Ball(panelWidth / 2 - 12.5, paddle.y - 26, gameLaunch);
         ball.setFireBall(fireBallImage);
+        if (gameBalls.size() != 0) {
+            gameBalls.clear();
+        }
         gameBalls.add(ball);
+
     }
 
     public void updateGameField(KeyEvent keyEvent, KeyEvent spaceKeyEvent) {
 
-        if (isLevelComplete) {
+        if (startNext) {
             if (levelCounter < LEVELS.length) {
                 levelCounter++;
                 init();
@@ -119,7 +122,7 @@ public class GameField {
                     paddle.setSticky(false);
                 }
             }
-            biteUpdate();
+            paddleUpdate();
 
             for (PowerUP powerUP : powerUPs) {
                 powerUP.updateSprite();
@@ -131,7 +134,7 @@ public class GameField {
         }
     }
 
-    private void biteUpdate() {
+    private void paddleUpdate() {
         paddle.setBallPowerUpEffect(null);
         for (Bullet bullet : bullets) {
             bullet.updateSprite();
@@ -143,7 +146,7 @@ public class GameField {
             paddle.image = biteImages.get(0);
         }
 
-        if (paddle.isNewLife() || lifeCount < MAXLIVE) {
+        if (paddle.isNewLife() && lifeCount < MAXLIVE) {
             lifeCount++;
             paddle.setNewLife(false);
         }
@@ -376,8 +379,16 @@ public class GameField {
         return isLevelComplete;
     }
 
+    public void setLevelComplete(boolean levelComplete) {
+        isLevelComplete = levelComplete;
+    }
+
     public boolean isGameWon() {
         return isGameWon;
+    }
+
+    public void setStartNext(boolean startNext) {
+        this.startNext = startNext;
     }
 }
 

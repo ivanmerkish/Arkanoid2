@@ -25,5 +25,11 @@ SoundEffectManager - this Class play all sound effect in game;
 The Big problem of this project was to handle powerUP effects.
 I divide them by Classes some to Ball effects some to Paddle effects;
 
+Game controls: ESC - menu
+               Left - Paddle left
+               Right - Paddle right
+               Space - Fire/Launch ball
+               F1 - In game Help
+
 
 P.S.: Yes, that's horrible powerUP images fully drown by me(sorry);

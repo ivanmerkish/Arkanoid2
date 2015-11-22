@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     private ArrayList<BufferedImage> biteImages;
     private BufferedImage bulletImage, fireBallImage, backgroundImage, weaponPUImage, fireballPUImage, gluePUImage;
     private KeyEvent keyEvent, spaceKeyEvent;
+    private boolean help;
 
     public GamePanel() {
         setFocusable(true);
@@ -52,6 +53,7 @@ public class GamePanel extends JPanel implements Runnable {
         } catch (Exception e) {
             System.out.println("Image Load Error");
         }
+        help = false;
         gameField = new GameField(biteImages, bulletImage, fireBallImage, PANELWIDTH - INFOPANELWIDHT, PANELHEIGHT);
 
 
@@ -70,7 +72,53 @@ public class GamePanel extends JPanel implements Runnable {
 
             @Override
             public synchronized void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+                if (!paused && e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    paused = true;
+                }
+                if (e.getKeyCode() == KeyEvent.VK_F1) {
+                    help = true;
+                }
+                if (isGameOver || paused || gameField.isLevelComplete() || help || gameField.isGameWon()) {
+                    if (isGameOver || gameField.isGameWon()) {
+                        if (e.getKeyCode() == KeyEvent.VK_Q) {
+                            closeGame();
+                        }
+                        if (e.getKeyCode() == KeyEvent.VK_N) {
+                            gameField = new GameField(biteImages, bulletImage, fireBallImage, PANELWIDTH - INFOPANELWIDHT, PANELHEIGHT);
+                            isGameOver = false;
+                        }
+
+                    }
+                    if (paused) {
+                        if (e.getKeyCode() == KeyEvent.VK_Q) {
+                            closeGame();
+                        }
+                        if (e.getKeyCode() == KeyEvent.VK_R) {
+                            gameField.init();
+                            paused = false;
+                        }
+                        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                            paused = false;
+                        }
+                        if (e.getKeyCode() == KeyEvent.VK_N) {
+                            gameField = new GameField(biteImages, bulletImage, fireBallImage, PANELWIDTH - INFOPANELWIDHT, PANELHEIGHT);
+                            paused = false;
+                        }
+
+                    }
+                    if (help && e.getKeyCode() == KeyEvent.VK_SPACE) {
+                        help = false;
+                    }
+
+
+                    if (gameField.isLevelComplete()) {
+                        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                            gameField.setStartNext(true);
+                            gameField.setLevelComplete(false);
+                        }
+                    }
+                } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     spaceKeyEvent = e;
                 } else {
                     keyEvent = null;
@@ -84,10 +132,14 @@ public class GamePanel extends JPanel implements Runnable {
         long before, diff, sleepTime;
         before = System.currentTimeMillis();
         running = true;
+        MusicPlayer m = new MusicPlayer();
+
+        Thread t = new Thread(m);
+        t.run();
 
         while (running) {
             isGameOver = gameField.isGameOver();
-            if (!paused && !isGameOver) {
+            if (!paused && !isGameOver && !gameField.isLevelComplete() && !help && !gameField.isGameWon()) {
                 gameUpdate();
             }
             gameRender();
@@ -120,9 +172,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         dbImage = new BufferedImage(PANELWIDTH, PANELHEIGHT, BufferedImage.OPAQUE);
         dbg = dbImage.createGraphics();
-        if (gameField.isLevelComplete()) {
-            drawWinTitle(dbg);
-        }
+
         Graphics2D g2 = (Graphics2D) dbg;
         g2.drawImage(backgroundImage, 0, 0, null);
         scoreRender(dbg);
@@ -140,16 +190,42 @@ public class GamePanel extends JPanel implements Runnable {
         for (Bullet bullet : gameField.bullets) {
             bullet.drawSprite(dbg);
         }
+        if (paused) {
+            drawMessages("PAUSED\n press Q to quite\n press R to restart level\n press N to start new game\n press SPACE to continue", dbg);
+        }
+        if (gameField.isLevelComplete()) {
+            drawMessages("Level Complete\n press SPACE to continue", dbg);
+        }
+        if (isGameOver) {
+            drawMessages("Game Over\n press Q to quite\n press N to start new game", dbg);
+        }
+        if (help) {
+            drawMessages(" ESC - Menu \n Left - paddle left\n Right - paddle right\n SPACE - Fire/Launch ball\n Press SPACE to return to game", dbg);
+        }
+        if (gameField.isGameWon()) {
+            drawMessages("CONGRATULATIONS\n" +
+                    "you won a game\n" +
+                    " press Q to quite\n" +
+                    " press N to start new game\n", dbg);
+        }
     }
 
-    private void drawWinTitle(Graphics dbg) {
-        String wonMssg = "Level Complite";
-        Graphics2D g2d = (Graphics2D) dbg;
-        FontMetrics fm = g2d.getFontMetrics();
+
+    private void drawMessages(String message, Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(new Color(0, 0, 0, 180));
+        g2d.fillRect(0, 0, PANELWIDTH, PANELHEIGHT);
+        int y = PANELHEIGHT / 2 - 100;
         g2d.setFont(font);
         g2d.setColor(new Color(0x9B91FF));
-        g2d.drawString(wonMssg, (PANELWIDTH - INFOPANELWIDHT) / 2 - fm.stringWidth(wonMssg), PANELHEIGHT / 2);
+        for (String line : message.split("\n")) {
+            int stringLen = (int)
+                    g2d.getFontMetrics().getStringBounds(line, g2d).getWidth();
+            int start = (this.getWidth() - stringLen) / 2;
+            g2d.drawString(line, start, y += g2d.getFontMetrics().getHeight());
+        }
     }
+
 
     private void gameUpdate() {
         gameField.updateGameField(keyEvent, spaceKeyEvent);
@@ -221,6 +297,12 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
+    }
+
+    private void closeGame() {
+        running = false;
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.dispose();
     }
 
 
