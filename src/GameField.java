@@ -52,10 +52,10 @@ public class GameField {
     }
 
     public void init() {
-        /*MusicPlayer m = new MusicPlayer();
+        MusicPlayer m = new MusicPlayer();
 
         Thread t = new Thread(m);
-        t.run();*/
+        t.run();
         lg = new LevelGenerator(LEVELS[levelCounter]);
         lg.setPanelHeight(panelHeight);
         lg.setPanelWidth(panelWidth);
@@ -71,123 +71,84 @@ public class GameField {
         Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26, gameLaunch);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);
+        // test
+        ball = new Ball(panelWidth / 2 - 12.5 + 10, bite.y - 26, gameLaunch);
+        gameBalls.add(ball);
         stickyPoint = bite.x;
 
     }
 
-    public void updateGameField(KeyEvent keyEvent) {
+    public void updateGameField(KeyEvent keyEvent, KeyEvent spaceKeyEvent) {
+
         bite.keyEvent = keyEvent;
+        bite.spaceKeyEvent = spaceKeyEvent;
         updateAllItems();
         collisionCheck();
 
     }
 
     private void updateAllItems() {
+
+        boolean isSpace = false;
         for (Ball ball : gameBalls) {
-            if (ball.isGlued() || bite.isWeapon) {
-                if (bite.keyEvent != null && bite.keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
-                    if (ball.isGlued()) {
-                        if (gameLaunch) {
-                            bite.setSticky(false);
-                            gameLaunch = false;
-                        }
-                        if (bite.getGlueCounter() > 0) {
-                            bite.setGlueCounter(bite.getGlueCounter() - 1);
-                        }
-
-
-                        ball.setGlued(false);
-                        if (ball.getAngle() > 180) {
-                            ball.setAngle(ball.getAngle() - 180);
-                        }
+            if (ball.isGlued()) {
+                if (ball.isGlued()) {
+                    gluedMove(ball);
+                    isSpace = gluedEvent(ball);
+                    if (gameLaunch) {
+                        bite.setSticky(false);
+                        gameLaunch = false;
                     }
-                    if (bite.isWeapon) {
-                        bullets.add(new Bullet(bite.x, bite.y, bulletImage));
-                        bullets.add(new Bullet(bite.x + bite.width, bite.y, bulletImage));
-                        bite.setBulletCount(bite.getBulletCount() - 1);
-                        bite.keyEvent = null;
-                        if (bite.getBulletCount() < 0) {
-                            bite.isWeapon = false;
-                        }
-                    }
-
-                } else if (ball.isGlued()) {
-                    double biteXDef = stickyPoint - bite.x;
-                    if ((biteXDef) != 0) {
-                        ball.x = ball.x - biteXDef;
-                    }
-                    ball.spdx = 0;
-                    ball.spdy = 0;
-                    stickyPoint = bite.x;
-
                 }
             }
-            if (bite.getBallPowerUpEffect() != null) {
-                ball.setCurrPowerUpEffect(bite.getBallPowerUpEffect());
-                if (bite.getBallPowerUpEffect() == Sprite.PowerUpEffect.TRIPLE) {
-                    Ball newBall = new Ball(ball.x, ball.y, gameLaunch);
-                    newBall.setAngle(ball.getAngle() + Math.random() * 90);
-                    gameBalls.add(newBall);
-                    newBall = new Ball(ball.x, ball.y, gameLaunch);
-                    newBall.setAngle(ball.getAngle() - Math.random() * 90);
-                    gameBalls.add(newBall);
-                }
 
-
-            }
-
+            triplets(ball);
             ball.updateSprite();
         }
+        if (isSpace) {
+            if (bite.getGlueCounter() > 0) {
+                bite.setGlueCounter(bite.getGlueCounter() - 1);
+            } else {
+                bite.setSticky(false);
+            }
+        }
+        biteUpdate();
+
+        for (PowerUP powerUP : powerUPs) {
+            powerUP.updateSprite();
+        }
+
+        for (Bullet bullet : bullets) {
+            bullet.updateSprite();
+        }
+    }
+
+    private void biteUpdate() {
         bite.setBallPowerUpEffect(null);
         for (Bullet bullet : bullets) {
             bullet.updateSprite();
         }
         if (bite.isWeapon) {
             bite.image = biteImages.get(1);
+            shooting();
         } else {
             bite.image = biteImages.get(0);
         }
-        if (bite.isWeapon) {
-            bite.image = biteImages.get(1);
-        }
+
         if (bite.isNewLife() || lifeCount < MAXLIVE) {
             lifeCount++;
             bite.setNewLife(false);
         }
         bite.updateSprite();
-        for (PowerUP powerUP : powerUPs) {
-            powerUP.updateSprite();
-        }
-        for (Bullet bullet : bullets) {
-            bullet.updateSprite();
-        }
+
     }
 
     private void collisionCheck(){
         //ball collisions;
         for (Ball b:gameBalls) {
-            for (Brick brick:bricks) {
-                if (b.isCollision(brick)) {
-                    if (b.isFireBall()) {
-                        if (brick.getPowerUP() != null) {
-                            powerUPs.add(brick.getPowerUP());
-                            Thread t = new Thread(new SoundEffectManager("brickExplosionEvent"));
-                            t.run();
-                        }
-                        bricks.remove(brick);
-                        score += 100;
-                    } else {
-                        if (brickRemove(brick)) {
-                            break;
-                        }
-                    }
-                }
-            }
+            brickCollision(b);
             if (b.isCollision(bite)) {
-                if (bite.isSticky() && !b.isGlued()) {
-                    stickyPoint = bite.x;
-                }
-                b.setGlued(bite.isSticky());
+                glue(b);
             }
             isBorder(b);
         }
@@ -210,6 +171,79 @@ public class GameField {
                         break;
                     }
                 }
+            }
+        }
+    }
+
+    private void brickCollision(Ball b) {
+        for (Brick brick : bricks) {
+            if (b.isCollision(brick)) {
+                if (b.isFireBall()) {
+                    if (brick.getPowerUP() != null) {
+                        powerUPs.add(brick.getPowerUP());
+                        Thread t = new Thread(new SoundEffectManager("brickExplosionEvent"));
+                        t.run();
+                    }
+                    bricks.remove(brick);
+                    score += 100;
+                } else {
+                    if (brickRemove(brick)) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void glue(Ball ball) {
+        if (bite.isSticky() && !ball.isGlued()) {
+            ball.setGlued(true);
+        }
+    }
+
+    private void gluedMove(Ball ball) {
+        if (ball.isGlued()) {
+            ball.spdx = 0;
+            ball.spdy = 0;
+            ball.x = ball.x + bite.defX;
+        }
+    }
+
+    private boolean gluedEvent(Ball ball) {
+        if (bite.spaceKeyEvent != null && ball.isGlued() && bite.spaceKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            ball.setGlued(false);
+            return true;
+        }
+        return false;
+    }
+
+    private void shooting() {
+        if (bite.spaceKeyEvent != null && bite.spaceKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (bite.isWeapon) {
+                Thread t = new Thread(new SoundEffectManager("weaponShooting"));
+                t.run();
+                bullets.add(new Bullet(bite.x, bite.y, bulletImage));
+                bullets.add(new Bullet(bite.x + bite.width, bite.y, bulletImage));
+                bite.setBulletCount(bite.getBulletCount() - 1);
+                bite.keyEvent = null;
+                if (bite.getBulletCount() < 0) {
+                    bite.isWeapon = false;
+                }
+            }
+
+        }
+    }
+
+    private void triplets(Ball ball) {
+        if (bite.getBallPowerUpEffect() != null) {
+            ball.setCurrPowerUpEffect(bite.getBallPowerUpEffect());
+            if (bite.getBallPowerUpEffect() == Sprite.PowerUpEffect.TRIPLE) {
+                Ball newBall = new Ball(ball.x, ball.y, gameLaunch);
+                newBall.setAngle(ball.getAngle() + Math.random() * 90);
+                gameBalls.add(newBall);
+                newBall = new Ball(ball.x, ball.y, gameLaunch);
+                newBall.setAngle(ball.getAngle() - Math.random() * 90);
+                gameBalls.add(newBall);
             }
         }
     }

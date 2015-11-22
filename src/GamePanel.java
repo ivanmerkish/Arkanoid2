@@ -23,8 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
     private BufferedImage dbImage = null;
     private ArrayList<BufferedImage> powerUPSImages, biteImages;
     private BufferedImage bulletImage, fireBallImage, backgroundImage, weaponPUImage, fireballPUImage, gluePUImage;
-    private KeyEvent keyEvent;
-
+    private KeyEvent keyEvent, spaceKeyEvent;
 
     public GamePanel() {
         setFocusable(true);
@@ -63,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
             @Override
             public synchronized void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    keyEvent = e;
+                    spaceKeyEvent = e;
                 } else {
                     keyEvent = null;
                 }
@@ -133,9 +132,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void gameUpdate() {
-        gameField.updateGameField(keyEvent);
-        if (keyEvent != null && keyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
-            keyEvent = null;
+        gameField.updateGameField(keyEvent, spaceKeyEvent);
+        if (spaceKeyEvent != null && spaceKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            spaceKeyEvent = null;
         }
 
     }
@@ -201,12 +200,6 @@ public class GamePanel extends JPanel implements Runnable {
                 i++;
             }
         }
-        /*else {
-            for (Ball b : gameField.gameBalls) {
-                if(b.)
-            }
-        }*/
-        i = 0;
 
     }
 

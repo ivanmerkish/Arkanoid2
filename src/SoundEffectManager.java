@@ -24,6 +24,7 @@ public class SoundEffectManager implements Runnable {
         effects.put("lvlCompleteEvent", "event_win_level_planets.wav");
         effects.put("brickExplosionEvent", "normal_star_explosion.wav");
         effects.put("fireBallEvent", "transformer_fire_ball.wav");
+        effects.put("weaponShooting", "bonus_cannon_shot.wav");
         loadEffectToStream(effect);
     }
 

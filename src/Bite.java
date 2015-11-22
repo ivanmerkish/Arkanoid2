@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -11,13 +10,12 @@ public class Bite extends Sprite{
 
     protected boolean isWeapon;
     protected boolean isLeftBorder, isRightBorder;
-    KeyEvent keyEvent;
-    MouseEvent mouseEvent;
+    protected int defX;
+    KeyEvent keyEvent, spaceKeyEvent;
     private int normalWidth = WIDTH * 2;
     private boolean isSticky;
     private int bulletCount, glueCounter;
     private boolean isNewLife;
-    private int newWidth;
     private boolean isFirstLaunch;
     private boolean isNewPowerUP;
     private PowerUpEffect ballPowerUpEffect;
@@ -48,31 +46,29 @@ public class Bite extends Sprite{
 
     @Override
     protected void updateSprite() {
+        defX = 0;
         if (keyEvent != null) {
             spdx = 10;
             switch (keyEvent.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                     if (!isLeftBorder) {
+                        defX = (int) x;
                         x -= spdx;
+                        defX = (int) x - defX;
                         isRightBorder = false;
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
                     if (!isRightBorder) {
+                        defX = (int) x;
                         x += spdx;
+                        defX = (int) x - defX;
                         isLeftBorder = false;
                     }
                     break;
             }
 
-        }
-        if (mouseEvent != null) {
-            if (x - mouseEvent.getX() > 0) {
-                x += spdx;
-            }
-            if (x - mouseEvent.getX() < 0) {
-                x -= spdx;
-            }
+
         }
         powerUPManagement();
         resize();
@@ -209,4 +205,5 @@ public class Bite extends Sprite{
     public void setBulletCount(int bulletCount) {
         this.bulletCount = bulletCount;
     }
+
 }

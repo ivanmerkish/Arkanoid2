@@ -133,14 +133,16 @@ public class Ball extends Sprite {
                     t.run();
                 }
             }
-
-            angle = 180 - angle;
+            if (!isFireBall) {
+                angle = 180 - angle;
+            }
             return true;
         }
         if (rect.intersectsLine(sprite.x, sprite.y, sprite.x, sprite.y + sprite.height)
                 || rect.intersectsLine(sprite.x + sprite.width, sprite.y, sprite.x + sprite.width, sprite.y + sprite.height)) {
-
-            angle = 360 - angle;
+            if (!isFireBall) {
+                angle = 360 - angle;
+            }
             return true;
         }
         return false;

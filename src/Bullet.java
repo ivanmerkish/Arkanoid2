@@ -18,7 +18,7 @@ public class Bullet extends Sprite {
 
     public boolean isCollision(Brick brick) {
         Rectangle rect = new Rectangle((int) x, (int) y, width, height);
-        return rect.intersectsLine(brick.x, brick.y, brick.x + brick.width, brick.y);
+        return rect.intersectsLine(brick.x, brick.y + brick.height, brick.x + brick.width, brick.y + brick.height);
 
     }
 }
