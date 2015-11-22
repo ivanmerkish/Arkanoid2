@@ -4,9 +4,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
- * Bite Class Extends Sprite Class
+ * Paddle Class Extends Sprite Class
  */
-public class Bite extends Sprite {
+public class Paddle extends Sprite {
 
     protected boolean isWeapon;
     protected boolean isLeftBorder, isRightBorder;
@@ -20,7 +20,7 @@ public class Bite extends Sprite {
     private Thread effectThread;
 
 
-    public Bite(double x, double y, BufferedImage image, int width, int height) {
+    public Paddle(double x, double y, BufferedImage image, int width, int height) {
         super(x, y, image, false);
         isSticky = true;
         isWeapon = false;

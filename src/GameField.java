@@ -19,7 +19,7 @@ public class GameField {
     protected CopyOnWriteArrayList<Brick> bricks;
     protected CopyOnWriteArrayList<PowerUP> powerUPs;
     protected CopyOnWriteArrayList<Bullet> bullets;
-    protected Bite bite;
+    protected Paddle paddle;
     private int panelWidth, panelHeight;
     private LevelGenerator lg;
     private int lifeCount, levelCounter, score;
@@ -27,7 +27,7 @@ public class GameField {
     private BufferedImage bulletImage, fireBallImage;
     private boolean gameLaunch;
     private boolean isGameOver;
-    private boolean isLevelComplite;
+    private boolean isLevelComplete;
     private boolean isGameWon;
 
     public GameField(ArrayList<BufferedImage> biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
@@ -35,7 +35,7 @@ public class GameField {
         this.bricks = new CopyOnWriteArrayList<>();
         this.powerUPs = new CopyOnWriteArrayList<>();
         this.bullets = new CopyOnWriteArrayList<>();
-        this.bite = null;
+        this.paddle = null;
         this.lg = null;
         this.biteImages = biteImages;
         this.bulletImage = bulletImage;
@@ -44,11 +44,11 @@ public class GameField {
         this.panelWidth = panelWidth;
         gameLaunch = true;
         isGameOver = false;
-        isLevelComplite = false;
+        isLevelComplete = false;
         isGameWon = false;
 
-        levelCounter = 3;
-        lifeCount = 25;
+        levelCounter = 0;
+        lifeCount = 3;
         init();
 
     }
@@ -69,15 +69,15 @@ public class GameField {
         int biteWidth, biteHeight;
         biteWidth = bricks.get(0).width * 3;
         biteHeight = bricks.get(0).height;
-        bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
-        Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26, gameLaunch);
+        paddle = new Paddle(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
+        Ball ball = new Ball(panelWidth / 2 - 12.5, paddle.y - 26, gameLaunch);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);
     }
 
     public void updateGameField(KeyEvent keyEvent, KeyEvent spaceKeyEvent) {
 
-        if (isLevelComplite) {
+        if (isLevelComplete) {
             if (levelCounter < LEVELS.length) {
                 levelCounter++;
                 init();
@@ -85,8 +85,8 @@ public class GameField {
                 isGameWon = true;
             }
         }
-        bite.keyEvent = keyEvent;
-        bite.spaceKeyEvent = spaceKeyEvent;
+        paddle.keyEvent = keyEvent;
+        paddle.spaceKeyEvent = spaceKeyEvent;
         updateAllItems();
         collisionCheck();
 
@@ -94,7 +94,7 @@ public class GameField {
 
     private void updateAllItems() {
         if (bricks.size() == 0) {
-            isLevelComplite = true;
+            isLevelComplete = true;
         } else {
             boolean isSpace = false;
             for (Ball ball : gameBalls) {
@@ -103,7 +103,7 @@ public class GameField {
                         gluedMove(ball);
                         isSpace = gluedEvent(ball);
                         if (gameLaunch) {
-                            bite.setSticky(false);
+                            paddle.setSticky(false);
                             gameLaunch = false;
                         }
                     }
@@ -113,10 +113,10 @@ public class GameField {
                 ball.updateSprite();
             }
             if (isSpace) {
-                if (bite.getGlueCounter() > 0) {
-                    bite.setGlueCounter(bite.getGlueCounter() - 1);
+                if (paddle.getGlueCounter() > 0) {
+                    paddle.setGlueCounter(paddle.getGlueCounter() - 1);
                 } else {
-                    bite.setSticky(false);
+                    paddle.setSticky(false);
                 }
             }
             biteUpdate();
@@ -132,22 +132,22 @@ public class GameField {
     }
 
     private void biteUpdate() {
-        bite.setBallPowerUpEffect(null);
+        paddle.setBallPowerUpEffect(null);
         for (Bullet bullet : bullets) {
             bullet.updateSprite();
         }
-        if (bite.isWeapon) {
-            bite.image = biteImages.get(1);
+        if (paddle.isWeapon) {
+            paddle.image = biteImages.get(1);
             shooting();
         } else {
-            bite.image = biteImages.get(0);
+            paddle.image = biteImages.get(0);
         }
 
-        if (bite.isNewLife() || lifeCount < MAXLIVE) {
+        if (paddle.isNewLife() || lifeCount < MAXLIVE) {
             lifeCount++;
-            bite.setNewLife(false);
+            paddle.setNewLife(false);
         }
-        bite.updateSprite();
+        paddle.updateSprite();
 
     }
 
@@ -155,17 +155,17 @@ public class GameField {
         //ball collisions;
         for (Ball b : gameBalls) {
             brickCollision(b);
-            if (b.isCollision(bite)) {
+            if (b.isCollision(paddle)) {
                 glue(b);
             }
             isBorder(b);
         }
-        //Bite collisions;
-        //Bite Border collision
-        isBorder(bite);
+        //Paddle collisions;
+        //Paddle Border collision
+        isBorder(paddle);
         //powerUP collision;
         for (PowerUP powerUP : powerUPs) {
-            if (bite.isCollision(powerUP) || isBorder(powerUP)) {
+            if (paddle.isCollision(powerUP) || isBorder(powerUP)) {
                 powerUPs.remove(powerUP);
             }
         }
@@ -204,7 +204,7 @@ public class GameField {
     }
 
     private void glue(Ball ball) {
-        if (bite.isSticky() && !ball.isGlued()) {
+        if (paddle.isSticky() && !ball.isGlued()) {
             ball.setGlued(true);
         }
     }
@@ -213,12 +213,12 @@ public class GameField {
         if (ball.isGlued()) {
             ball.spdx = 0;
             ball.spdy = 0;
-            ball.x = ball.x + bite.defX;
+            ball.x = ball.x + paddle.defX;
         }
     }
 
     private boolean gluedEvent(Ball ball) {
-        if (bite.spaceKeyEvent != null && ball.isGlued() && bite.spaceKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+        if (paddle.spaceKeyEvent != null && ball.isGlued() && paddle.spaceKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
             ball.setGlued(false);
             return true;
         }
@@ -226,16 +226,16 @@ public class GameField {
     }
 
     private void shooting() {
-        if (bite.spaceKeyEvent != null && bite.spaceKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
-            if (bite.isWeapon) {
+        if (paddle.spaceKeyEvent != null && paddle.spaceKeyEvent.getKeyCode() == KeyEvent.VK_SPACE) {
+            if (paddle.isWeapon) {
                 Thread t = new Thread(new SoundEffectManager("weaponShooting"));
                 t.run();
-                bullets.add(new Bullet(bite.x, bite.y, bulletImage));
-                bullets.add(new Bullet(bite.x + bite.width - bulletImage.getWidth(), bite.y, bulletImage));
-                bite.setBulletCount(bite.getBulletCount() - 1);
-                bite.keyEvent = null;
-                if (bite.getBulletCount() < 0) {
-                    bite.isWeapon = false;
+                bullets.add(new Bullet(paddle.x, paddle.y, bulletImage));
+                bullets.add(new Bullet(paddle.x + paddle.width - bulletImage.getWidth(), paddle.y, bulletImage));
+                paddle.setBulletCount(paddle.getBulletCount() - 1);
+                paddle.keyEvent = null;
+                if (paddle.getBulletCount() < 0) {
+                    paddle.isWeapon = false;
                 }
             }
 
@@ -243,9 +243,9 @@ public class GameField {
     }
 
     private void triplets(Ball ball) {
-        if (bite.getBallPowerUpEffect() != null) {
-            ball.setCurrPowerUpEffect(bite.getBallPowerUpEffect());
-            if (bite.getBallPowerUpEffect() == Sprite.PowerUpEffect.TRIPLE) {
+        if (paddle.getBallPowerUpEffect() != null) {
+            ball.setCurrPowerUpEffect(paddle.getBallPowerUpEffect());
+            if (paddle.getBallPowerUpEffect() == Sprite.PowerUpEffect.TRIPLE) {
                 Ball newBall = new Ball(ball.x, ball.y, gameLaunch);
                 newBall.setAngle(ball.getAngle() + Math.random() * 90);
                 newBall.setGlued(ball.isGlued());
@@ -308,12 +308,12 @@ public class GameField {
                 return true;
             }
         }
-        if (sprite instanceof Bite) {
+        if (sprite instanceof Paddle) {
             if (rectangle.intersectsLine(leftBorder)) {
-                ((Bite) sprite).isLeftBorder = true;
+                ((Paddle) sprite).isLeftBorder = true;
             }
             if (rectangle.intersectsLine(rightBorder)) {
-                ((Bite) sprite).isRightBorder = true;
+                ((Paddle) sprite).isRightBorder = true;
             }
         }
         return false;
@@ -326,8 +326,8 @@ public class GameField {
             int biteWidth, biteHeight;
             biteWidth = bricks.get(0).width * 3;
             biteHeight = bricks.get(0).height;
-            bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
-            Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26, gameLaunch);
+            paddle = new Paddle(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
+            Ball ball = new Ball(panelWidth / 2 - 12.5, paddle.y - 26, gameLaunch);
             ball.setFireBall(fireBallImage);
             gameBalls.add(ball);
         } else isGameOver = true;
@@ -372,8 +372,8 @@ public class GameField {
         return false;
     }
 
-    public boolean isLevelComplite() {
-        return isLevelComplite;
+    public boolean isLevelComplete() {
+        return isLevelComplete;
     }
 
     public boolean isGameWon() {

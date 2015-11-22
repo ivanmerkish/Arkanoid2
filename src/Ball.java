@@ -111,7 +111,7 @@ public class Ball extends Sprite {
         Rectangle rect = new Rectangle((int) x, (int) y, width, height);
         if (rect.intersectsLine(sprite.x, sprite.y, sprite.x + sprite.width, sprite.y) ||
                 rect.intersectsLine(sprite.x, sprite.y + sprite.height, sprite.x + sprite.width, sprite.y + sprite.height)) {
-            if (sprite instanceof Bite) {
+            if (sprite instanceof Paddle) {
                 while (y + height > sprite.y) {
                     y--;
                 }
@@ -128,7 +128,7 @@ public class Ball extends Sprite {
             }
             if (!isFireBall) {
                 angle = 180 - angle;
-            } else if (sprite instanceof Bite) {
+            } else if (sprite instanceof Paddle) {
                 angle = 180 - angle;
             }
             return true;
@@ -137,7 +137,7 @@ public class Ball extends Sprite {
                 || rect.intersectsLine(sprite.x + sprite.width, sprite.y, sprite.x + sprite.width, sprite.y + sprite.height)) {
             if (!isFireBall) {
                 angle = 360 - angle;
-            } else if (sprite instanceof Bite) {
+            } else if (sprite instanceof Paddle) {
                 angle = 360 - angle;
             }
             return true;
@@ -178,12 +178,12 @@ public class Ball extends Sprite {
 //
 //    }
 
-    public void setFireBall(BufferedImage fireBall) {
-        this.fireBall = fireBall;
-    }
-
     public void setFireBall(boolean fireBall) {
         isFireBall = fireBall;
+    }
+
+    public void setFireBall(BufferedImage fireBall) {
+        this.fireBall = fireBall;
     }
 
     private void angleChanges(boolean left) {

@@ -1,0 +1,29 @@
+=======================================================================================================================
+=                                                                                                                     =
+=                                            ARKANOID: ARCADE GAME                                                    =
+=                                                                                                                     =
+=                                                                                                                     =
+=======================================================================================================================
+Arkanoid is Classic arcade game wich i always want to replicate
+It's very simple but outstanding gameplay drives you to play it again and again
+So about project:
+It's build in simple way:
+5 Classes of game items: Ball - represent game ball in game
+                         Brick - it's just a brick (if you lucky you can find awesome powerUp if you broke it)
+                         Paddle - player's paddle to ricochet Ball in to Bricks (and broke them)
+                         PowerUP - Awesome!!
+                         Bullet - if you catch weapon PowerUP you cat shoot all brick alone
+all of them extends Sprite class with some extensions;
+MusicPlayer - to play background music.
+LevelGenerator - Build levels form simple text file that represent brick place on the field by couple parameters (Brick
+type,color) separated by semicolon;
+GameField - game backend (engine) all game changes is calculated by this Class;
+GamePane - it's "Face" of game. Game loop plus graphics
+SoundEffectManager - this Class play all sound effect in game;
+...and of course MainFrame Class - main Class of Project;
+
+The Big problem of this project was to handle powerUP effects.
+I divide them by Classes some to Ball effects some to Paddle effects;
+
+
+P.S.: Yes, that's horrible powerUP images fully drown by me(sorry);

@@ -120,14 +120,14 @@ public class GamePanel extends JPanel implements Runnable {
 
         dbImage = new BufferedImage(PANELWIDTH, PANELHEIGHT, BufferedImage.OPAQUE);
         dbg = dbImage.createGraphics();
-        if (gameField.isLevelComplite()) {
+        if (gameField.isLevelComplete()) {
             drawWinTitle(dbg);
         }
         Graphics2D g2 = (Graphics2D) dbg;
         g2.drawImage(backgroundImage, 0, 0, null);
         scoreRender(dbg);
         effectRender(dbg);
-        gameField.bite.drawSprite(dbg);
+        gameField.paddle.drawSprite(dbg);
         for (Ball ball : gameField.gameBalls) {
             ball.drawSprite(dbg);
         }
@@ -192,7 +192,7 @@ public class GamePanel extends JPanel implements Runnable {
                 limit = limit - i;
                 i = 0;
             }
-            graphics.drawImage(gameField.bite.image, PANELWIDTH - INFOPANELWIDHT + 20 + i * 25, (int) (fm.getHeight() * 1.5d) + 80 + (gameField.bite.height / 7 + 2) * line, gameField.bite.width / 7, gameField.bite.height / 7, this);
+            graphics.drawImage(gameField.paddle.image, PANELWIDTH - INFOPANELWIDHT + 20 + i * 25, (int) (fm.getHeight() * 1.5d) + 80 + (gameField.paddle.height / 7 + 2) * line, gameField.paddle.width / 7, gameField.paddle.height / 7, this);
         }
     }
 
@@ -206,15 +206,15 @@ public class GamePanel extends JPanel implements Runnable {
         int imgW = weaponPUImage.getWidth() / 5;
         int imgH = weaponPUImage.getHeight() / 5;
         graphics.setColor(new Color(0x3edc00));
-        if (gameField.bite.isWeapon) {
+        if (gameField.paddle.isWeapon) {
             graphics.drawImage(weaponPUImage, userPanelX, (int) (fm.getHeight() * 1.5d) + 180 + i * imgH, imgW, imgH, this);
-            String bullets = "X " + gameField.bite.getBulletCount();
+            String bullets = "X " + gameField.paddle.getBulletCount();
             graphics.drawString(bullets, userPanelX + imgW + 10, fm.getHeight() * 2 + 180 + i * imgH);
             i++;
         }
-        if (gameField.bite.isSticky()) {
+        if (gameField.paddle.isSticky()) {
             if (!gameField.isGameLaunch()) {
-                String glue = "X " + gameField.bite.getGlueCounter();
+                String glue = "X " + gameField.paddle.getGlueCounter();
                 graphics.drawImage(gluePUImage, userPanelX, (int) (fm.getHeight() * 1.5d) + 180 + i * imgH, imgW, imgH, this);
                 graphics.drawString(glue, userPanelX + imgW + 10, fm.getHeight() * 2 + 180 + i * imgH);
                 i++;
