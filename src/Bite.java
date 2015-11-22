@@ -20,6 +20,8 @@ public class Bite extends Sprite{
     private int newWidth;
     private boolean isFirstLaunch;
     private boolean isNewPowerUP;
+    private PowerUpEffect ballPowerUpEffect;
+
 
     public Bite(double x, double y, BufferedImage image, int width, int height) {
         super(x, y, image, false);
@@ -33,6 +35,8 @@ public class Bite extends Sprite{
         spdx = 0;
         isLeftBorder = false;
         isRightBorder = false;
+        ballPowerUpEffect = null;
+
 
     }
 
@@ -148,8 +152,13 @@ public class Bite extends Sprite{
                 case GLUE:
                     isSticky = true;
                     glueCounter = 5;
+                    break;
+                default:
+                    ballPowerUpEffect = powerUpEffect;
+                    break;
 
             }
+            powerUpEffect = null;
         }
     }
 
@@ -167,5 +176,13 @@ public class Bite extends Sprite{
 
     public void setSticky(boolean sticky) {
         isSticky = sticky;
+    }
+
+    public PowerUpEffect getBallPowerUpEffect() {
+        return ballPowerUpEffect;
+    }
+
+    public void setBallPowerUpEffect(PowerUpEffect ballPowerUpEffect) {
+        this.ballPowerUpEffect = ballPowerUpEffect;
     }
 }

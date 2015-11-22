@@ -13,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class GameField {
 
-    private static final int TOOLBARHEIGHT = 40;
+    private static final int TOOLBARHEIGHT = 10;
     private static final String[] LEVELS = {"level1", "level2", "level3", "level4", "level5"};
     protected CopyOnWriteArrayList<Ball> gameBalls;
     protected CopyOnWriteArrayList<Brick> bricks;
@@ -66,7 +66,7 @@ public class GameField {
         }
         int biteWidth, biteHeight;
         biteWidth = bricks.get(0).width * 3;
-        biteHeight = bricks.get(0).height / 2;
+        biteHeight = bricks.get(0).height;
         bite = new Bite(panelWidth / 2 - biteWidth / 2, panelHeight - biteHeight - TOOLBARHEIGHT, biteImages.get(0), biteWidth, biteHeight);
         Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26);
         ball.setFireBall(fireBallImage);
@@ -105,6 +105,10 @@ public class GameField {
                     stickyPoint = bite.x;
                 }
             }
+            if (bite.getBallPowerUpEffect() != null) {
+                ball.setCurrPowerUpEffect(bite.getBallPowerUpEffect());
+                bite.setBallPowerUpEffect(null);
+            }
             ball.updateSprite();
         }
         for (Bullet bullet : bullets) {
@@ -114,6 +118,9 @@ public class GameField {
             bite.image = biteImages.get(1);
         } else {
             bite.image = biteImages.get(0);
+        }
+        if (bite.isWeapon) {
+            bite.image = biteImages.get(1);
         }
         bite.updateSprite();
         for (PowerUP powerUP : powerUPs) {
@@ -155,10 +162,10 @@ public class GameField {
     }
 
     private boolean isBorder(Sprite sprite) {
-        Line2D upperBorder = new Line2D.Double(0, 0, panelWidth, 0);
-        Line2D leftBorder = new Line2D.Double(0, 0, 0, panelHeight);
-        Line2D rightBorder = new Line2D.Double(panelWidth, 0, panelWidth, panelHeight);
-        Line2D bottomBorder = new Line2D.Double(0, panelHeight, panelWidth, panelHeight);
+        Line2D upperBorder = new Line2D.Double(15, 0, panelWidth, 0);
+        Line2D leftBorder = new Line2D.Double(15, 0, 15, panelHeight);
+        Line2D rightBorder = new Line2D.Double(panelWidth, 15, panelWidth, panelHeight);
+        Line2D bottomBorder = new Line2D.Double(15, panelHeight, panelWidth, panelHeight);
         Rectangle2D rectangle = new Rectangle.Double(sprite.x, sprite.y, sprite.width, sprite.height);
         if (sprite instanceof Ball) {
             if (rectangle.intersectsLine(upperBorder)) {

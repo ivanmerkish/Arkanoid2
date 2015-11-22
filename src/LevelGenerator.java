@@ -50,22 +50,22 @@ public class LevelGenerator {
                         System.out.println("Color Assignment Error");
                     }
                     if (params[0].equals("1")) {
-                        bricks.add(new Brick(brickW * bi, brickH * i, null, aColor, 1, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi + 10, brickH * i + 10, null, aColor, 1, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("2")) {
-                        bricks.add(new Brick(brickW * bi, brickH * i, new PowerUP(brickW * bi, brickH * i, brickW, brickH), aColor, 1, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi + 10, brickH * i + 10, new PowerUP(brickW * bi + 10, brickH * i + 10, brickW, brickH), aColor, 1, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("3")) {
-                        bricks.add(new Brick(brickW * bi, brickH * i, null, aColor, 2, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi + 10, brickH * i + 10, null, aColor, 2, brickW, brickH));
                         bi++;
                         continue;
                     }
                     if (params[0].equals("4")) {
-                        bricks.add(new Brick(brickW * bi, brickH * i, null, aColor, -1, brickW, brickH));
+                        bricks.add(new Brick(brickW * bi + 10, brickH * i + 10, null, aColor, -1, brickW, brickH));
                         bi++;
                     }
 

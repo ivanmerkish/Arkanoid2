@@ -15,13 +15,14 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable {
 
     private static final int PERIOD = 20;
-    private static final int PANELWIDTH = 800;
+    private static final int PANELWIDTH = 950;
     private static final int PANELHEIGHT = 600;
+    private static final int INFOPANELWIDHT = 153;
     boolean running, paused, isGameOver;
     GameField gameField;
     private BufferedImage dbImage = null;
     private ArrayList<BufferedImage> powerUPSImages, biteImages;
-    private BufferedImage bulletImage, fireBallImage;
+    private BufferedImage bulletImage, fireBallImage, backgroundImage;
     private KeyEvent keyEvent;
     private MouseEvent mouseEvent;
 
@@ -37,11 +38,12 @@ public class GamePanel extends JPanel implements Runnable {
             biteImages.add(ImageIO.read(new File(getClass().getResource("/img/BiteGuns.png").toURI())));
             powerUPSImages = new ArrayList<>();
             fireBallImage = ImageIO.read(new File(getClass().getResource("/img/Fireball.png").toURI()));
+            backgroundImage = ImageIO.read(new File(getClass().getResource("/img/background.png").toURI()));
             //image loading;
         } catch (Exception e) {
             System.out.println("Image Load Error");
         }
-        gameField = new GameField(powerUPSImages, biteImages, bulletImage, fireBallImage, PANELWIDTH, PANELHEIGHT);
+        gameField = new GameField(powerUPSImages, biteImages, bulletImage, fireBallImage, PANELWIDTH - INFOPANELWIDHT, PANELHEIGHT);
 
 
         addKeyListener(new KeyAdapter() {
@@ -113,6 +115,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         dbImage = new BufferedImage(PANELWIDTH, PANELHEIGHT, BufferedImage.OPAQUE);
         dbg = dbImage.createGraphics();
+        Graphics2D g2 = (Graphics2D) dbg;
+        g2.drawImage(backgroundImage, 0, 0, null);
         gameField.bite.drawSprite(dbg);
         for (Ball ball : gameField.gameBalls) {
             ball.drawSprite(dbg);
@@ -145,6 +149,10 @@ public class GamePanel extends JPanel implements Runnable {
             System.out.println("Graphics error");
             e.printStackTrace();
         }
+    }
+
+    private void scoreRender(Graphics g) {
+
     }
 
 
