@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 /**
@@ -9,8 +8,7 @@ public class Ball extends Sprite {
 
     private static final int DIF_SIZE = 25;
     private static final int DIF_SPEED = 5;
-    private double angle, oldAngle;
-    private AffineTransform af;
+    private double angle;
     private PowerUpEffect currPowerUpEffect;
     private int speedDef;
     private BufferedImage fireBall;
@@ -20,7 +18,6 @@ public class Ball extends Sprite {
         super(x, y, null, false);
         this.angle = 10;
         this.currPowerUpEffect = null;
-        af = new AffineTransform();
         fireBall = null;
         width = DIF_SIZE;
         height = DIF_SIZE;
@@ -39,10 +36,6 @@ public class Ball extends Sprite {
     protected void drawSprite(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
         setQuality(graphics2D);
-        if (angle != oldAngle) {
-            af.rotate(Math.toRadians(angle), x + width / 2, y + height / 2);
-            oldAngle = angle;
-        }
 
         if (!isFireBall) {
             graphics2D.setColor(new Color(0xABABAB));
@@ -135,12 +128,16 @@ public class Ball extends Sprite {
             }
             if (!isFireBall) {
                 angle = 180 - angle;
+            } else if (sprite instanceof Bite) {
+                angle = 180 - angle;
             }
             return true;
         }
         if (rect.intersectsLine(sprite.x, sprite.y, sprite.x, sprite.y + sprite.height)
                 || rect.intersectsLine(sprite.x + sprite.width, sprite.y, sprite.x + sprite.width, sprite.y + sprite.height)) {
             if (!isFireBall) {
+                angle = 360 - angle;
+            } else if (sprite instanceof Bite) {
                 angle = 360 - angle;
             }
             return true;

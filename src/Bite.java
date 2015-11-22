@@ -76,8 +76,13 @@ public class Bite extends Sprite {
 
         if (scale > 1) {
             if (normalWidth * scale > width) {
-                x--;
-                width += 2;
+                if (isLeftBorder) {
+                    width += 3;
+                }
+                if (isRightBorder) {
+                    x--;
+                    width += 1;
+                }
                 return;
             }
 
@@ -92,7 +97,9 @@ public class Bite extends Sprite {
         }
         if (scale == 1) {
             if (width < normalWidth) {
-                x--;
+                if (!isLeftBorder) {
+                    x--;
+                }
                 width += 2;
                 return;
             }

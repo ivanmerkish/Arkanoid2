@@ -216,7 +216,7 @@ public class GameField {
                 Thread t = new Thread(new SoundEffectManager("weaponShooting"));
                 t.run();
                 bullets.add(new Bullet(bite.x, bite.y, bulletImage));
-                bullets.add(new Bullet(bite.x + bite.width, bite.y, bulletImage));
+                bullets.add(new Bullet(bite.x + bite.width - bulletImage.getWidth(), bite.y, bulletImage));
                 bite.setBulletCount(bite.getBulletCount() - 1);
                 bite.keyEvent = null;
                 if (bite.getBulletCount() < 0) {
