@@ -26,18 +26,17 @@ public class Brick extends Sprite {
     @Override
     protected void drawSprite(Graphics graphics) {
         super.drawSprite(graphics);
-        Graphics2D graphics2D = (Graphics2D)graphics;
+        Graphics2D graphics2D = (Graphics2D) graphics;
         setQuality(graphics2D);
         GradientPaint gr;
         long currCycleTime = System.currentTimeMillis();
-        if (cycle==0) {
+        if (cycle == 0) {
             gr = new GradientPaint((float) x, (float) y, Color.WHITE, (float) x + width, (float) y + height, color, true);
             if (currCycleTime - cycleStartTime > 300) {
                 cycle++;
                 cycleStartTime = System.currentTimeMillis();
             }
-        }
-        else{
+        } else {
             gr = new GradientPaint((float) x, (float) y, color, (float) x + width, (float) y + height, Color.WHITE, true);
             if (currCycleTime - cycleStartTime > 300) {
                 cycle--;
@@ -45,7 +44,7 @@ public class Brick extends Sprite {
             }
         }
         graphics2D.setPaint(gr);
-        graphics2D.fillRoundRect((int)x,(int)y,width,height,2,2);
+        graphics2D.fillRoundRect((int) x, (int) y, width, height, 2, 2);
     }
 
     public PowerUP getPowerUP() {

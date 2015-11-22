@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
     boolean running, paused, isGameOver;
     GameField gameField;
     private BufferedImage dbImage = null;
-    private ArrayList<BufferedImage> powerUPSImages, biteImages;
+    private ArrayList<BufferedImage> biteImages;
     private BufferedImage bulletImage, fireBallImage, backgroundImage, weaponPUImage, fireballPUImage, gluePUImage;
     private KeyEvent keyEvent, spaceKeyEvent;
 
@@ -36,14 +36,13 @@ public class GamePanel extends JPanel implements Runnable {
             biteImages = new ArrayList<>();
             biteImages.add(ImageIO.read(new File(getClass().getResource("/img/Bite.png").toURI())));
             biteImages.add(ImageIO.read(new File(getClass().getResource("/img/BiteGuns.png").toURI())));
-            powerUPSImages = new ArrayList<>();
             fireBallImage = ImageIO.read(new File(getClass().getResource("/img/Fireball.png").toURI()));
             backgroundImage = ImageIO.read(new File(getClass().getResource("/img/background.png").toURI()));
             //image loading;
         } catch (Exception e) {
             System.out.println("Image Load Error");
         }
-        gameField = new GameField(powerUPSImages, biteImages, bulletImage, fireBallImage, PANELWIDTH - INFOPANELWIDHT, PANELHEIGHT);
+        gameField = new GameField(biteImages, bulletImage, fireBallImage, PANELWIDTH - INFOPANELWIDHT, PANELHEIGHT);
 
 
         addKeyListener(new KeyAdapter() {
@@ -77,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
         running = true;
 
         while (running) {
-            isGameOver = gameField.isGameover();
+            isGameOver = gameField.isGameOver();
             if (!paused && !isGameOver) {
                 gameUpdate();
             }

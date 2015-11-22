@@ -3,7 +3,7 @@ import java.awt.*;
 import java.io.File;
 
 /**
- *  PowerUP Class extends Sprite Class: PowerUP Item Class
+ * PowerUP Class extends Sprite Class: PowerUP Item Class
  */
 public class PowerUP extends Sprite {
 
@@ -38,6 +38,6 @@ public class PowerUP extends Sprite {
 
     @Override
     protected void updateSprite() {
-        y+=spdy;
+        y += spdy;
     }
 }

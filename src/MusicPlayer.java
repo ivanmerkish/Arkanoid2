@@ -1,12 +1,13 @@
 import javax.sound.sampled.*;
 
 /**
- * Created by Ivan Merkish on 11/13/2015.
+ * MusicPlayer Class: plays background music;
  */
 
 public class MusicPlayer implements Runnable {
 
     private AudioInputStream inputStream;
+
     public MusicPlayer() {
         try {
             inputStream = AudioSystem.getAudioInputStream(

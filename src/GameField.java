@@ -23,27 +23,25 @@ public class GameField {
     private int panelWidth, panelHeight;
     private LevelGenerator lg;
     private int lifeCount, levelCounter, score;
-    private ArrayList<BufferedImage> powerUPSImages, biteImages;
+    private ArrayList<BufferedImage> biteImages;
     private BufferedImage bulletImage, fireBallImage;
-    private double stickyPoint;
     private boolean gameLaunch;
-    private boolean isGameover;
+    private boolean isGameOver;
 
-    public GameField(ArrayList<BufferedImage> powerUPSImages, ArrayList<BufferedImage> biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
+    public GameField(ArrayList<BufferedImage> biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
         this.gameBalls = new CopyOnWriteArrayList<>();
         this.bricks = new CopyOnWriteArrayList<>();
         this.powerUPs = new CopyOnWriteArrayList<>();
         this.bullets = new CopyOnWriteArrayList<>();
         this.bite = null;
         this.lg = null;
-        this.powerUPSImages = powerUPSImages;
         this.biteImages = biteImages;
         this.bulletImage = bulletImage;
         this.fireBallImage = fireBallImage;
         this.panelHeight = panelHeight;
         this.panelWidth = panelWidth;
         gameLaunch = true;
-        isGameover = false;
+        isGameOver = false;
 
         levelCounter = 1;
         lifeCount = 25;
@@ -71,11 +69,6 @@ public class GameField {
         Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26, gameLaunch);
         ball.setFireBall(fireBallImage);
         gameBalls.add(ball);
-        // test
-        ball = new Ball(panelWidth / 2 - 12.5 + 10, bite.y - 26, gameLaunch);
-        gameBalls.add(ball);
-        stickyPoint = bite.x;
-
     }
 
     public void updateGameField(KeyEvent keyEvent, KeyEvent spaceKeyEvent) {
@@ -143,9 +136,9 @@ public class GameField {
 
     }
 
-    private void collisionCheck(){
+    private void collisionCheck() {
         //ball collisions;
-        for (Ball b:gameBalls) {
+        for (Ball b : gameBalls) {
             brickCollision(b);
             if (b.isCollision(bite)) {
                 glue(b);
@@ -318,12 +311,11 @@ public class GameField {
             Ball ball = new Ball(panelWidth / 2 - 12.5, bite.y - 26, gameLaunch);
             ball.setFireBall(fireBallImage);
             gameBalls.add(ball);
-            stickyPoint = bite.x;
-        } else isGameover = true;
+        } else isGameOver = true;
     }
 
-    public boolean isGameover() {
-        return isGameover;
+    public boolean isGameOver() {
+        return isGameOver;
     }
 
     public int getScore() {

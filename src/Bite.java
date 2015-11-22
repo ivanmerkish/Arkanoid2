@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 /**
  * Bite Class Extends Sprite Class
  */
-public class Bite extends Sprite{
+public class Bite extends Sprite {
 
     protected boolean isWeapon;
     protected boolean isLeftBorder, isRightBorder;
@@ -16,8 +16,6 @@ public class Bite extends Sprite{
     private boolean isSticky;
     private int bulletCount, glueCounter;
     private boolean isNewLife;
-    private boolean isFirstLaunch;
-    private boolean isNewPowerUP;
     private PowerUpEffect ballPowerUpEffect;
     private Thread effectThread;
 
@@ -27,7 +25,6 @@ public class Bite extends Sprite{
         isSticky = true;
         isWeapon = false;
         isNewLife = false;
-        isFirstLaunch = true;
         normalWidth = width;
         this.width = normalWidth;
         this.height = height;
@@ -102,11 +99,9 @@ public class Bite extends Sprite{
             if (width > normalWidth) {
                 x++;
                 width -= 2;
-                return;
             }
 
         }
-        isNewPowerUP = false;
     }
 
     public boolean isCollision(PowerUP powerUP) {
@@ -114,11 +109,8 @@ public class Bite extends Sprite{
         Rectangle2D biteBound = new Rectangle2D.Double(x, y, width, height);
         if (biteBound.intersects(powerUPBound)) {
             powerUpEffect = powerUP.getPowerUpEffect();
-            if (powerUpEffect != PowerUpEffect.LIFE)
-                isNewPowerUP = true;
             return true;
         }
-
         return false;
     }
 
