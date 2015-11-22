@@ -9,13 +9,13 @@ public class Ball extends Sprite {
 
     private static final int DIF_SIZE = 25;
     private static final int DIF_SPEED = 3;
-    private double angle;
+    private double angle, oldAngle;
     private AffineTransform af;
     private PowerUpEffect currPowerUpEffect;
     private PowerUpEffect lastPowerUpEffect;
     private int speedDef;
     private BufferedImage fireBall;
-    private boolean isGlued;
+    private boolean isGlued, isFireBall;
 
     public Ball(double x, double y) {
         super(x, y, null, false);
@@ -27,6 +27,7 @@ public class Ball extends Sprite {
         height = DIF_SIZE;
         isGlued = true;
         speedDef = DIF_SPEED;
+        isFireBall = false;
 
 
     }
@@ -35,12 +36,17 @@ public class Ball extends Sprite {
     protected void drawSprite(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
         setQuality(graphics2D);
-        graphics2D.setTransform(af);
-        if (currPowerUpEffect != PowerUpEffect.FIREBALL) {
+        if (angle != oldAngle) {
+            af.rotate(Math.toRadians(angle), x + width / 2, y + height / 2);
+            oldAngle = angle;
+        }
+
+        if (!isFireBall) {
             graphics2D.setColor(new Color(0xABABAB));
             graphics2D.fillOval((int) x, (int) y, width, height);
         } else {
-            graphics2D.drawImage(fireBall, (int) x, (int) y, width, height, null);
+            graphics2D.setColor(new Color(0xFF9436));
+            graphics2D.fillOval((int) x, (int) y, width, height);
         }
     }
 
@@ -72,22 +78,22 @@ public class Ball extends Sprite {
                     lastPowerUpEffect = PowerUpEffect.SLOW;
                     break;
                 case LARGE:
-                    if (lastPowerUpEffect != PowerUpEffect.LARGE) {
+                    if (width <= DIF_SIZE) {
                         y = y - height - 2;
                         width *= 2;
                         height *= 2;
-                        lastPowerUpEffect = PowerUpEffect.LARGE;
+
                     }
                     break;
                 case SMALL:
-                    if (lastPowerUpEffect != PowerUpEffect.SMALL) {
+                    if (width >= DIF_SIZE) {
                         width *= 0.5;
                         height *= 0.5;
-                        lastPowerUpEffect = PowerUpEffect.SMALL;
                     }
                     break;
                 case FIREBALL:
                     image = fireBall;
+                    isFireBall = true;
                     break;
 
             }
@@ -106,11 +112,21 @@ public class Ball extends Sprite {
         Rectangle rect = new Rectangle((int) x, (int) y, width, height);
         if (rect.intersectsLine(sprite.x, sprite.y, sprite.x + sprite.width, sprite.y) ||
                 rect.intersectsLine(sprite.x, sprite.y + sprite.height, sprite.x + sprite.width, sprite.y + sprite.height)) {
+            if (sprite instanceof Bite) {
+                if ((rect.getX() + rect.getWidth() / 2) < (sprite.x + sprite.width / 3)) {
+                    angle = angle - 5;
+                }
+                if ((rect.getX() + rect.getWidth() / 2) > (sprite.x + sprite.width / 3 * 2)) {
+                    angle = angle + 5;
+                }
+            }
+            System.out.println(angle);
             angle = 180 - angle;
             return true;
         }
         if (rect.intersectsLine(sprite.x, sprite.y, sprite.x, sprite.y + sprite.height)
                 || rect.intersectsLine(sprite.x + sprite.width, sprite.y, sprite.x + sprite.width, sprite.y + sprite.height)) {
+
             angle = 360 - angle;
             return true;
         }
@@ -153,5 +169,13 @@ public class Ball extends Sprite {
 
     public void setSpeedDef(int speedDef) {
         this.speedDef = speedDef;
+    }
+
+    public boolean isFireBall() {
+        return isFireBall;
+    }
+
+    public void setFireBall(boolean fireBall) {
+        isFireBall = fireBall;
     }
 }

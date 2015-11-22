@@ -67,8 +67,11 @@ public class Sprite {
     protected enum PowerUpEffect {
         NORMAL, FAST, SLOW, FIREBALL, SMALL, LARGE, GROW, SHRINK, WEAPON, TRIPLE, LIFE, NORMALBALL, GLUE;
 
-        public static PowerUpEffect getRandom() {
+        /*public static PowerUpEffect getRandom() {
             return values()[(int) (Math.random() * values().length)];
+        }*/
+        public static PowerUpEffect getRandom() {
+            return values()[3];
         }
     }
 

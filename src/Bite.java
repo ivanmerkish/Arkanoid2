@@ -140,7 +140,7 @@ public class Bite extends Sprite{
                     break;
                 case SHRINK:
                     if (scale > 1) scale = 1;
-                    if (scale < 0.25) scale *= 0.5;
+                    if (!(scale < 0.25)) scale *= 0.5;
                     break;
                 case WEAPON:
                     bulletCount += 10;

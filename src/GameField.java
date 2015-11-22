@@ -110,10 +110,21 @@ public class GameField {
             }
             if (bite.getBallPowerUpEffect() != null) {
                 ball.setCurrPowerUpEffect(bite.getBallPowerUpEffect());
-                bite.setBallPowerUpEffect(null);
+                if (bite.getBallPowerUpEffect() == Sprite.PowerUpEffect.TRIPLE) {
+                    Ball newBall = new Ball(ball.x, ball.y);
+                    newBall.setAngle(ball.getAngle() + Math.random() * 90);
+                    gameBalls.add(newBall);
+                    newBall = new Ball(ball.x, ball.y);
+                    newBall.setAngle(ball.getAngle() - Math.random() * 90);
+                    gameBalls.add(newBall);
+                }
+
+
             }
+
             ball.updateSprite();
         }
+        bite.setBallPowerUpEffect(null);
         for (Bullet bullet : bullets) {
             bullet.updateSprite();
         }
@@ -140,18 +151,26 @@ public class GameField {
         for (Ball b:gameBalls) {
             for (Brick brick:bricks) {
                 if (b.isCollision(brick)) {
-                    if (brick.getHardness() - 1 == 0) {
+                    if (b.isFireBall()) {
                         if (brick.getPowerUP() != null) {
                             powerUPs.add(brick.getPowerUP());
                         }
                         bricks.remove(brick);
                         score += 100;
-                        break;
-                    } else if (brick.getHardness() - 1 > 0) {
-                        brick.setHardness(brick.getHardness() - 1);
-                        score += 50;
                     } else {
-                        brick.setHardness(-1);
+                        if (brick.getHardness() - 1 == 0) {
+                            if (brick.getPowerUP() != null) {
+                                powerUPs.add(brick.getPowerUP());
+                            }
+                            bricks.remove(brick);
+                            score += 100;
+                            break;
+                        } else if (brick.getHardness() - 1 > 0) {
+                            brick.setHardness(brick.getHardness() - 1);
+                            score += 50;
+                        } else {
+                            brick.setHardness(-1);
+                        }
                     }
                 }
             }
@@ -185,8 +204,13 @@ public class GameField {
                 return true;
             }
             if (rectangle.intersectsLine(bottomBorder)) {
-                lifeCount--;
-                restart();
+                if (gameBalls.size() == 1) {
+                    lifeCount--;
+                    restart();
+                } else {
+                    gameBalls.remove(sprite);
+                }
+
             }
             if (rectangle.intersectsLine(leftBorder) || rectangle.intersectsLine(rightBorder)) {
                 ((Ball) sprite).setAngle(360 - ((Ball) sprite).getAngle());
