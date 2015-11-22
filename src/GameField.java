@@ -90,6 +90,9 @@ public class GameField {
                         bite.setSticky(false);
                         gameLaunch = false;
                     }
+                    if (bite.getGlueCounter() > 0) {
+                        bite.setGlueCounter(bite.getGlueCounter() - 1);
+                    }
 
                     ball.setGlued(false);
                     if (ball.getAngle() > 180) {
@@ -153,6 +156,9 @@ public class GameField {
                 }
             }
             if (b.isCollision(bite)) {
+                if (bite.isSticky() && !b.isGlued()) {
+                    stickyPoint = bite.x;
+                }
                 b.setGlued(bite.isSticky());
             }
             isBorder(b);
@@ -206,6 +212,7 @@ public class GameField {
 
     private void restart() {
         if (lifeCount - 1 > -1) {
+            gameLaunch = true;
             gameBalls.clear();
             int biteWidth, biteHeight;
             biteWidth = bricks.get(0).width * 3;

@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 /**
@@ -8,12 +7,13 @@ import java.awt.image.BufferedImage;
  */
 public class Ball extends Sprite {
 
+    private static final int DIF_SIZE = 25;
+    private static final int DIF_SPEED = 3;
     private double angle;
     private AffineTransform af;
     private PowerUpEffect currPowerUpEffect;
     private PowerUpEffect lastPowerUpEffect;
     private int speedDef;
-
     private BufferedImage fireBall;
     private boolean isGlued;
 
@@ -23,10 +23,10 @@ public class Ball extends Sprite {
         this.currPowerUpEffect = null;
         af = new AffineTransform();
         fireBall = null;
-        width = 25;
-        height = 25;
+        width = DIF_SIZE;
+        height = DIF_SIZE;
         isGlued = true;
-        speedDef = 3;
+        speedDef = DIF_SPEED;
 
 
     }
@@ -49,21 +49,12 @@ public class Ball extends Sprite {
         if (currPowerUpEffect != null) {
             switch (currPowerUpEffect) {
                 case NORMAL:
-                    if (lastPowerUpEffect == PowerUpEffect.SMALL) {
-                        width *= 2;
-                        height *= 2;
-                        lastPowerUpEffect = PowerUpEffect.NORMAL;
-                        //af.scale(2,2);
+                    if (DIF_SIZE != width) {
+                        width = DIF_SIZE;
+                        height = DIF_SIZE;
                     }
-                    if (lastPowerUpEffect == PowerUpEffect.LARGE) {
-                        width *= 0.5;
-                        height *= 0.5;
-                        lastPowerUpEffect = PowerUpEffect.LARGE;
-
-                        //af.scale(0.5,0.5);
-                    }
-                    if (lastPowerUpEffect == PowerUpEffect.FAST || lastPowerUpEffect == PowerUpEffect.SLOW) {
-                        speedDef = 3;
+                    if (speedDef != DIF_SPEED) {
+                        speedDef = DIF_SPEED;
                     }
                     break;
                 case FAST:
@@ -82,10 +73,10 @@ public class Ball extends Sprite {
                     break;
                 case LARGE:
                     if (lastPowerUpEffect != PowerUpEffect.LARGE) {
+                        y = y - height - 2;
                         width *= 2;
                         height *= 2;
                         lastPowerUpEffect = PowerUpEffect.LARGE;
-                        //af.scale(2,2);
                     }
                     break;
                 case SMALL:
@@ -93,7 +84,6 @@ public class Ball extends Sprite {
                         width *= 0.5;
                         height *= 0.5;
                         lastPowerUpEffect = PowerUpEffect.SMALL;
-                        //af.scale(0.5, 0.5);
                     }
                     break;
                 case FIREBALL:
@@ -103,7 +93,7 @@ public class Ball extends Sprite {
             }
             currPowerUpEffect = null;
         }
-        if (!isGlued) {//
+        if (!isGlued) {
             spdx = Math.sin(Math.toRadians(angle)) * speedDef;
             spdy = -Math.cos(Math.toRadians(angle)) * speedDef;
 
@@ -127,11 +117,6 @@ public class Ball extends Sprite {
         return false;
     }
 
-    public boolean isCollision(Line2D line) {
-        Rectangle rect = new Rectangle((int) x, (int) y, width, height);
-
-        return false;
-    }
 
     public PowerUpEffect getCurrPowerUpEffect() {
         return currPowerUpEffect;

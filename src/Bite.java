@@ -185,4 +185,12 @@ public class Bite extends Sprite{
     public void setBallPowerUpEffect(PowerUpEffect ballPowerUpEffect) {
         this.ballPowerUpEffect = ballPowerUpEffect;
     }
+
+    public int getGlueCounter() {
+        return glueCounter;
+    }
+
+    public void setGlueCounter(int glueCounter) {
+        this.glueCounter = glueCounter;
+    }
 }
