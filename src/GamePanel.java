@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements Runnable {
     private static final String FONTNAME = "Terminal";
 
     boolean running, paused, isGameOver;
+    Font font;
     GameField gameField;
     private BufferedImage dbImage = null;
     private ArrayList<BufferedImage> biteImages;
@@ -28,6 +29,15 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel() {
         setFocusable(true);
         requestFocusInWindow();
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/font/Coalition_v2.ttf").openStream());
+            GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            genv.registerFont(font);
+            font = font.deriveFont(Font.BOLD, 40f);
+            this.setFont(font);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             weaponPUImage = ImageIO.read(new File(getClass().getResource("/img/weaponPU.png").toURI()));
             fireballPUImage = ImageIO.read(new File(getClass().getResource("/img/fireballPU.png").toURI()));
@@ -110,6 +120,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         dbImage = new BufferedImage(PANELWIDTH, PANELHEIGHT, BufferedImage.OPAQUE);
         dbg = dbImage.createGraphics();
+        if (gameField.isLevelComplite()) {
+            drawWinTitle(dbg);
+        }
         Graphics2D g2 = (Graphics2D) dbg;
         g2.drawImage(backgroundImage, 0, 0, null);
         scoreRender(dbg);
@@ -127,7 +140,15 @@ public class GamePanel extends JPanel implements Runnable {
         for (Bullet bullet : gameField.bullets) {
             bullet.drawSprite(dbg);
         }
+    }
 
+    private void drawWinTitle(Graphics dbg) {
+        String wonMssg = "Level Complite";
+        Graphics2D g2d = (Graphics2D) dbg;
+        FontMetrics fm = g2d.getFontMetrics();
+        g2d.setFont(font);
+        g2d.setColor(new Color(0x9B91FF));
+        g2d.drawString(wonMssg, (PANELWIDTH - INFOPANELWIDHT) / 2 - fm.stringWidth(wonMssg), PANELHEIGHT / 2);
     }
 
     private void gameUpdate() {

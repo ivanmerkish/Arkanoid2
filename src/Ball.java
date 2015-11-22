@@ -182,6 +182,10 @@ public class Ball extends Sprite {
         this.fireBall = fireBall;
     }
 
+    public void setFireBall(boolean fireBall) {
+        isFireBall = fireBall;
+    }
+
     private void angleChanges(boolean left) {
         if (left) {
             if (angle < 0) {

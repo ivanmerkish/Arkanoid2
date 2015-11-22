@@ -14,7 +14,7 @@ public class GameField {
 
     private static final int TOOLBARHEIGHT = 10;
     private static final int MAXLIVE = 26;
-    private static final String[] LEVELS = {"level1", "level2", "level3", "level4", "level5"};
+    private static final String[] LEVELS = {"level1", "level2", "level3", "level4"};
     protected CopyOnWriteArrayList<Ball> gameBalls;
     protected CopyOnWriteArrayList<Brick> bricks;
     protected CopyOnWriteArrayList<PowerUP> powerUPs;
@@ -27,6 +27,8 @@ public class GameField {
     private BufferedImage bulletImage, fireBallImage;
     private boolean gameLaunch;
     private boolean isGameOver;
+    private boolean isLevelComplite;
+    private boolean isGameWon;
 
     public GameField(ArrayList<BufferedImage> biteImages, BufferedImage bulletImage, BufferedImage fireBallImage, int panelWidth, int panelHeight) {
         this.gameBalls = new CopyOnWriteArrayList<>();
@@ -42,8 +44,10 @@ public class GameField {
         this.panelWidth = panelWidth;
         gameLaunch = true;
         isGameOver = false;
+        isLevelComplite = false;
+        isGameWon = false;
 
-        levelCounter = 1;
+        levelCounter = 3;
         lifeCount = 25;
         init();
 
@@ -73,6 +77,14 @@ public class GameField {
 
     public void updateGameField(KeyEvent keyEvent, KeyEvent spaceKeyEvent) {
 
+        if (isLevelComplite) {
+            if (levelCounter < LEVELS.length) {
+                levelCounter++;
+                init();
+            } else {
+                isGameWon = true;
+            }
+        }
         bite.keyEvent = keyEvent;
         bite.spaceKeyEvent = spaceKeyEvent;
         updateAllItems();
@@ -81,38 +93,41 @@ public class GameField {
     }
 
     private void updateAllItems() {
-
-        boolean isSpace = false;
-        for (Ball ball : gameBalls) {
-            if (ball.isGlued()) {
+        if (bricks.size() == 0) {
+            isLevelComplite = true;
+        } else {
+            boolean isSpace = false;
+            for (Ball ball : gameBalls) {
                 if (ball.isGlued()) {
-                    gluedMove(ball);
-                    isSpace = gluedEvent(ball);
-                    if (gameLaunch) {
-                        bite.setSticky(false);
-                        gameLaunch = false;
+                    if (ball.isGlued()) {
+                        gluedMove(ball);
+                        isSpace = gluedEvent(ball);
+                        if (gameLaunch) {
+                            bite.setSticky(false);
+                            gameLaunch = false;
+                        }
                     }
                 }
+
+                triplets(ball);
+                ball.updateSprite();
+            }
+            if (isSpace) {
+                if (bite.getGlueCounter() > 0) {
+                    bite.setGlueCounter(bite.getGlueCounter() - 1);
+                } else {
+                    bite.setSticky(false);
+                }
+            }
+            biteUpdate();
+
+            for (PowerUP powerUP : powerUPs) {
+                powerUP.updateSprite();
             }
 
-            triplets(ball);
-            ball.updateSprite();
-        }
-        if (isSpace) {
-            if (bite.getGlueCounter() > 0) {
-                bite.setGlueCounter(bite.getGlueCounter() - 1);
-            } else {
-                bite.setSticky(false);
+            for (Bullet bullet : bullets) {
+                bullet.updateSprite();
             }
-        }
-        biteUpdate();
-
-        for (PowerUP powerUP : powerUPs) {
-            powerUP.updateSprite();
-        }
-
-        for (Bullet bullet : bullets) {
-            bullet.updateSprite();
         }
     }
 
@@ -233,9 +248,13 @@ public class GameField {
             if (bite.getBallPowerUpEffect() == Sprite.PowerUpEffect.TRIPLE) {
                 Ball newBall = new Ball(ball.x, ball.y, gameLaunch);
                 newBall.setAngle(ball.getAngle() + Math.random() * 90);
+                newBall.setGlued(ball.isGlued());
+                newBall.setFireBall(ball.isFireBall());
                 gameBalls.add(newBall);
                 newBall = new Ball(ball.x, ball.y, gameLaunch);
                 newBall.setAngle(ball.getAngle() - Math.random() * 90);
+                newBall.setGlued(ball.isGlued());
+                newBall.setFireBall(ball.isFireBall());
                 gameBalls.add(newBall);
             }
         }
@@ -351,6 +370,14 @@ public class GameField {
             t.run();
         }
         return false;
+    }
+
+    public boolean isLevelComplite() {
+        return isLevelComplite;
+    }
+
+    public boolean isGameWon() {
+        return isGameWon;
     }
 }
 
