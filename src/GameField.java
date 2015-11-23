@@ -84,6 +84,7 @@ public class GameField {
             if (levelCounter < LEVELS.length) {
                 levelCounter++;
                 init();
+                startNext = false;
             } else {
                 isGameWon = true;
             }
